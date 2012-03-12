@@ -25,7 +25,7 @@ namespace CGProj
         Sprite mBackgroundFour;
         Sprite mBackgroundFive;
 
-        Bee mBeeSprite;
+        Ninja mNinjaSprite;
 
 
        // StaminaBar mStamina;
@@ -70,7 +70,7 @@ namespace CGProj
             // TODO: Add your initialization logic here
 
 
-            mBeeSprite = new Bee();
+            mNinjaSprite = new Ninja();
 
           //  bee2 = new Sprite();
            // mStamina = new StaminaBar();
@@ -114,9 +114,9 @@ namespace CGProj
             mTerainManager.registerSprites(this.m_physicsEngine);
             // TODO: use this.Content to load your game content here
 
-            mBeeSprite.LoadContent(this.Content);
+            mNinjaSprite.LoadContent(this.Content);
 
-            this.m_physicsEngine.registerMoveableSolid(mBeeSprite);
+            this.m_physicsEngine.registerMoveableSolid(mNinjaSprite);
 
           //  mStamina.LoadContent(this.Content);
 
@@ -176,11 +176,11 @@ namespace CGProj
             if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            mBeeSprite.Update(gameTime);
+            mNinjaSprite.Update(gameTime);
 
          //   mStamina.stamina = mBeeSprite.stamina;
 
-            if (mBeeSprite.screen == 1)
+            if (mNinjaSprite.screen == 1)
             {
                 Back1 = "comeatmebro";
                 Back2 = "comeatmebro";
@@ -188,7 +188,7 @@ namespace CGProj
                 Back4 = "comeatmebro";
                 Back5 = "comeatmebro";
                 LoadContent();
-                mBeeSprite.screen = 0;
+                mNinjaSprite.screen = 0;
                 
             }
 
@@ -281,7 +281,7 @@ namespace CGProj
 
            // test.Draw(this.spriteBatch);
 
-            mBeeSprite.Draw(this.spriteBatch);
+            mNinjaSprite.Draw(this.spriteBatch);
 
            // mStamina.Draw(this.spriteBatch);
 

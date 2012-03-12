@@ -12,30 +12,30 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CGProj
 {
-    class Bee : Sprite
+    class Ninja : Sprite
     {
-        const string BEE_ASSETNAME = "ninja";
+        const string ASSETNAME = "ninja";
         const int START_POSITION_X = 0;
         const int START_POSITION_Y = 450;
-        const int BEE_SPEED = 260;
+        const int SPEED = 260;
         const int MOVE_UP = -1;
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
         const int MOVE_RIGHT = 1;
-        int gifpos = 1;
-        bool back = false;
-        static int flightDuation = 300;
-        public int stamina = flightDuation;
+        //int gifpos = 1;
+        //bool back = false;
+        //static int flightDuation = 300;
+        //public int stamina = flightDuation;
 
-        private System.Timers.Timer animationTimer = new System.Timers.Timer();
-       
+        private Timer animationTimer = new Timer();
 
-        const int spriteOffset = 540; //left = 0, right = 405
+
+        const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
-        public int getStamina
+        /*public int getStamina
         {
             get { return stamina; }
-        }
+        }*/
 
         enum State
         {
@@ -60,28 +60,23 @@ namespace CGProj
         Vector2 mSpeed = Vector2.Zero;
         KeyboardState mPreviousKeyboardState;
         Vector2 mStartingPosition = Vector2.Zero;
-        List<Fireball> mFireballs = new List<Fireball>();
-
+        //List<Fireball> mFireballs = new List<Fireball>();
 
         ContentManager mContentManager;
 
-
-        
 
         public void LoadContent(ContentManager theContentManager)
         {
             mContentManager = theContentManager;
 
-            foreach (Fireball aFireball in mFireballs)
+            /*foreach (Fireball aFireball in mFireballs)
             {
-
                 aFireball.LoadContent(theContentManager);
-
-            }
+            }*/
 
             Position = new Vector2(START_POSITION_X, START_POSITION_Y);
 
-            base.LoadContent(theContentManager, BEE_ASSETNAME);
+            base.LoadContent(theContentManager, ASSETNAME);
             Source = new Rectangle(0, 0, 135, 195);
 
             animationTimer.Interval = (1000) * (1);
@@ -89,7 +84,7 @@ namespace CGProj
             animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e) //do something more useful here!
         {
             int i = 0;
             i++;
@@ -98,7 +93,6 @@ namespace CGProj
 
         public void Update(GameTime theGameTime)
         {
-
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
            // Below:  resets position of char if it reaches the width of the screen. 
             if (Position.X >= 790)
@@ -106,13 +100,13 @@ namespace CGProj
                 Position.X = 0;
                 //screen = 1;
             }
+
             UpdateMovement(aCurrentKeyboardState);
             UpdateJump(aCurrentKeyboardState);
             //UpdateFireball(theGameTime, aCurrentKeyboardState);
             mPreviousKeyboardState = aCurrentKeyboardState;
 
             base.Update(theGameTime, mSpeed, mDirection);
-
         }
 
 
@@ -193,39 +187,35 @@ namespace CGProj
             if (mCurrentState == State.Walking || mCurrentState == State.Idle)
             {
                 mSpeed = Vector2.Zero;
-
                 mDirection = Vector2.Zero;
 
-
-      
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
+                if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true) //left
                 {
                     mCurrentState = State.Walking;
                     mCurrentDirection = Direction.Left;
 
                     MovementAnimation();
 
-                    mSpeed.X = BEE_SPEED;
-
+                    mSpeed.X = SPEED;
                     mDirection.X = MOVE_LEFT;
 
                 }
 
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
+                else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true) //right
                 {
                     mCurrentState = State.Walking;
                     mCurrentDirection = Direction.Right;
 
                     MovementAnimation();
-                    mSpeed.X = BEE_SPEED;
 
+                    mSpeed.X = SPEED;
                     mDirection.X = MOVE_RIGHT;
 
                 }
-                else
+                else //idle
                 {
-                    Source = new Rectangle(0, 0, 135, 195);
                     mCurrentState = State.Idle;
+                    Source = new Rectangle(0, 0, 135, 195);
                 }
 
             }
@@ -233,8 +223,8 @@ namespace CGProj
         }
 
 
-        private void MovementAnimation()
-        { //suport 3 frames
+        private void MovementAnimation() //TODO suport 3 frames
+        { 
             if (mCurrentDirection == Direction.Left)
             {
                 Source = new Rectangle(0, 0, 135, 195);
@@ -248,93 +238,59 @@ namespace CGProj
 
         private void UpdateJump(KeyboardState aCurrentKeyboardState)
         {
-
             if (mCurrentState == State.Walking)
             {
-
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                 {
-
                     Jump();
-
                 }
-
             }
 
             if (mCurrentState == State.Jumping)
             {
-
                 if (mStartingPosition.Y - Position.Y > 150)
                 {
-
                     mDirection.Y = MOVE_DOWN;
-
                 }
 
 
 
                 if (Position.Y > mStartingPosition.Y)
                 {
-
                     Position.Y = mStartingPosition.Y;
-
                     mCurrentState = State.Walking;
-
                     mDirection = Vector2.Zero;
-
                 }
 
 
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                 {
-
                     Jump();
-
                 }
-
             }
-
         }
 
 
         private void Jump()
         {
-
             if (mCurrentState != State.Jumping)
             {
 
                 mCurrentState = State.Jumping;
-
                 mStartingPosition = Position;
-
                 mDirection.Y = MOVE_UP;
-
-                mSpeed = new Vector2(BEE_SPEED, BEE_SPEED);
-
+                mSpeed = new Vector2(SPEED, SPEED);
             }
-
         }
-
 
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
-
             /*foreach (Fireball aFireball in mFireballs)
             {
-
                 aFireball.Draw(theSpriteBatch);
-
             }*/
-
-
-
             base.Draw(theSpriteBatch);
-
         }
-
-
-
-
     }
 }
