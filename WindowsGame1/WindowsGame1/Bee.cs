@@ -26,9 +26,9 @@ namespace CGProj
         bool back = false;
         static int flightDuation = 300;
         public int stamina = flightDuation;
-       /* System.Timers.Timer animationTimer = new System.Timers.Timer();
-        animationTimer.interval = (1000) * (1);
-        animationTimer.Enabled = true;*/
+
+        private System.Timers.Timer animationTimer = new System.Timers.Timer();
+       
 
         const int spriteOffset = 540; //left = 0, right = 405
         
@@ -83,6 +83,16 @@ namespace CGProj
 
             base.LoadContent(theContentManager, BEE_ASSETNAME);
             Source = new Rectangle(0, 0, 135, 195);
+
+            animationTimer.Interval = (1000) * (1);
+            animationTimer.Enabled = true;
+            animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            int i = 0;
+            i++;
         }
 
 
