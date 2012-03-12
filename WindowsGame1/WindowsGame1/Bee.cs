@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +14,7 @@ namespace CGProj
 {
     class Bee : Sprite
     {
-        const string BEE_ASSETNAME = "ohgodwhy";
+        const string BEE_ASSETNAME = "ninja";
         const int START_POSITION_X = 0;
         const int START_POSITION_Y = 450;
         const int BEE_SPEED = 260;
@@ -25,7 +26,12 @@ namespace CGProj
         bool back = false;
         static int flightDuation = 300;
         public int stamina = flightDuation;
+       /* System.Timers.Timer animationTimer = new System.Timers.Timer();
+        animationTimer.interval = (1000) * (1);
+        animationTimer.Enabled = true;*/
 
+        const int spriteOffset = 540; //left = 0, right = 405
+        
         public int getStamina
         {
             get { return stamina; }
@@ -33,19 +39,28 @@ namespace CGProj
 
         enum State
         {
+            Idle,
             Walking,
             Jumping,
-            Ohgodwhy,
-            Flying
+            Attack,
+            Throw,
         }
 
-        State mCurrentState = State.Walking;
+        enum Direction
+        {
+            Left,
+            Right,
+        }
+
+
+        State mCurrentState = State.Idle;
+
+        Direction mCurrentDirection = Direction.Right;
         
         Vector2 mSpeed = Vector2.Zero;
         KeyboardState mPreviousKeyboardState;
         Vector2 mStartingPosition = Vector2.Zero;
         List<Fireball> mFireballs = new List<Fireball>();
-
 
 
         ContentManager mContentManager;
@@ -67,7 +82,7 @@ namespace CGProj
             Position = new Vector2(START_POSITION_X, START_POSITION_Y);
 
             base.LoadContent(theContentManager, BEE_ASSETNAME);
-            Source = new Rectangle(200, 0, 200, 200);
+            Source = new Rectangle(0, 0, 135, 195);
         }
 
 
@@ -79,263 +94,19 @@ namespace CGProj
             if (Position.X >= 790)
             {
                 Position.X = 0;
-                screen = 1;
+                //screen = 1;
             }
             UpdateMovement(aCurrentKeyboardState);
             UpdateJump(aCurrentKeyboardState);
-            UpdateOhgodwhy(aCurrentKeyboardState);
-            UpdateFireball(theGameTime, aCurrentKeyboardState);
-            UpdateFlight(aCurrentKeyboardState);
+            //UpdateFireball(theGameTime, aCurrentKeyboardState);
             mPreviousKeyboardState = aCurrentKeyboardState;
 
             base.Update(theGameTime, mSpeed, mDirection);
 
         }
 
-        private void UpdateFlight(KeyboardState aCurrentKeyboardState)
-        {
 
-            if (aCurrentKeyboardState.IsKeyDown(Keys.F) == true)
-            {
-                if (stamina > 0)
-                {
-                    stamina--;
-                    Flight(aCurrentKeyboardState);
-                }
-                else
-                {
-                    if (stamina < flightDuation)
-                    {
-                        stamina++;
-                    }
-
-                    StopFlight();
-                }
-
-            }
-
-            else if (aCurrentKeyboardState.IsKeyDown(Keys.F) == false)
-            {
-                if (stamina < flightDuation)
-                {
-                    stamina++;
-                }
-                StopFlight();
-            }
-
-
-        }
-
-
-
-        private void Flight(KeyboardState aCurrentKeyboardState)
-        {
-
-            if (mCurrentState == State.Walking)
-            {
-                mSpeed = Vector2.Zero;
-
-                mDirection = Vector2.Zero;
-
-                mCurrentState = State.Flying;
-                 
-               
-            }
-
-            if(mCurrentState == State.Flying)
-            {
-
-
-                mSpeed = Vector2.Zero;
-
-                mDirection = Vector2.Zero;
-
-
-                FlightAnimation(aCurrentKeyboardState);
-
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
-                {
-
-                    mSpeed.X = BEE_SPEED;
-
-                    mDirection.X = MOVE_LEFT;
-
-                }
-
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
-                {
-
-                    mSpeed.X = BEE_SPEED;
-
-                    mDirection.X = MOVE_RIGHT;
-
-                }
-
-
-
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Up) == true || aCurrentKeyboardState.IsKeyDown(Keys.W) == true)
-                 {
-
-                     mSpeed.Y = BEE_SPEED;
-
-                     mDirection.Y = MOVE_UP;
-
-                 }
-
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Down) == true || aCurrentKeyboardState.IsKeyDown(Keys.S) == true)
-                 {
-
-                     mSpeed.Y = BEE_SPEED;
-
-                     mDirection.Y = MOVE_DOWN;
-
-                 }
-
-            }
-
-        }
-
-        private void StopFlight()
-        {
-            if (mCurrentState == State.Flying)
-            {
-
-                if (Position.Y > 450)
-                {
-
-                    Position.Y = 450;
-
-                    mCurrentState = State.Walking;
-
-                    mDirection = Vector2.Zero;
-
-                }
-
-
-                Source = new Rectangle(200, 0, 200, 200);
-
-                mCurrentState = State.Walking;
-
-            }
-
-            if (mCurrentState == State.Walking)
-            {
-                if (Position.Y < 450)
-                {
-                    mSpeed.Y = BEE_SPEED;
-
-                    mDirection.Y = MOVE_DOWN;
-
-                }
-            }
-
-        }
-
-
-
-        private void FlightAnimation(KeyboardState aCurrentKeyboardState)
-        {
-            if (gifpos <= 3)
-            {
-                if (gifpos <= 1)
-                {
-                    if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
-                    {
-                        Source = new Rectangle(0, 600, 200, 200);
-                    }
-                    else if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
-                    { 
-                        Source = new Rectangle(0, 400, 200, 200);
-                    }
-                    else
-                    {
-                        Source = new Rectangle(0, 200, 200, 200);
-                    }
-                    if (back)
-                    {
-                        if (gifpos > 0)
-                        {
-                            gifpos--;
-                        }
-                        else
-                        {
-                            gifpos++;
-                            back = false;
-                        }
-
-                    }
-                    else
-                    {
-                        gifpos++;
-                        back = false;
-                    }
-
-                }
-                if (gifpos <= 2 && gifpos >= 2)
-                {
-                    if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
-                    {
-                        Source = new Rectangle(200, 600, 200, 200);
-                    }
-                    else if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
-                    {
-                        Source = new Rectangle(200, 400, 200, 200);
-                    }
-                    else
-                    {
-                        Source = new Rectangle(200, 200, 200, 200);
-                    }
-                    if (back)
-                    {
-                        gifpos--;
-                    }
-                    else
-                    {
-                        gifpos++;
-                    }
-                }
-                if (gifpos <= 3 && gifpos >= 3)
-                {
-                    if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
-                    {
-                        Source = new Rectangle(400, 600, 200, 200);
-                    }
-                    else if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
-                    {
-                        Source = new Rectangle(400, 400, 200, 200);
-                    }
-                    else
-                    {
-                        Source = new Rectangle(400, 200, 200, 200);
-                    }
-                    if (!back)
-                    {
-                        if (gifpos < 3)
-                        {
-                            gifpos++;
-                        }
-                        else
-                        {
-                            gifpos--;
-                            back = true;
-                        }
-
-                    }
-                    else
-                    {
-                        gifpos--;
-                    }
-
-                }
-
-            }
-        }
-
-
-
-
-
-        private void UpdateFireball(GameTime theGameTime, KeyboardState aCurrentKeyboardState)
+    /*    private void UpdateFireball(GameTime theGameTime, KeyboardState aCurrentKeyboardState)
         {
 
             foreach (Fireball aFireball in mFireballs)
@@ -404,82 +175,25 @@ namespace CGProj
 
             }
 
-        }
-
-
-
-
-
-        private void UpdateOhgodwhy(KeyboardState aCurrentKeyboardState)
-        {
-
-            if (aCurrentKeyboardState.IsKeyDown(Keys.RightShift) == true || aCurrentKeyboardState.IsKeyDown(Keys.LeftShift) == true)
-            {
-
-                Ohgodwhy();
-
-            }
-
-            else
-            {
-
-                StopOhgodwhy();
-
-            }
-
-        }
-
-        private void Ohgodwhy()
-        {
-
-            if (mCurrentState == State.Walking || mCurrentState == State.Flying)
-            {
-
-                mSpeed = Vector2.Zero;
-
-                mDirection = Vector2.Zero;
-
-
-
-                Source = new Rectangle(0, 0, 200, 200);
-
-                mCurrentState = State.Ohgodwhy;
-
-            }
-
-        }
-
-        private void StopOhgodwhy()
-        {
-
-            if (mCurrentState == State.Ohgodwhy)
-            {
-
-                Source = new Rectangle(200, 0, 200, 200);
-
-                mCurrentState = State.Walking;
-
-            }
-
-        }
-
+        }*/
 
 
         private void UpdateMovement(KeyboardState aCurrentKeyboardState)
         {
-
-            if (mCurrentState == State.Walking)
+            if (mCurrentState == State.Walking || mCurrentState == State.Idle)
             {
-
-
                 mSpeed = Vector2.Zero;
 
                 mDirection = Vector2.Zero;
 
 
-
+      
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true)
                 {
+                    mCurrentState = State.Walking;
+                    mCurrentDirection = Direction.Left;
+
+                    MovementAnimation();
 
                     mSpeed.X = BEE_SPEED;
 
@@ -489,17 +203,38 @@ namespace CGProj
 
                 else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true)
                 {
+                    mCurrentState = State.Walking;
+                    mCurrentDirection = Direction.Right;
 
+                    MovementAnimation();
                     mSpeed.X = BEE_SPEED;
 
                     mDirection.X = MOVE_RIGHT;
-                 
-                }
 
+                }
+                else
+                {
+                    Source = new Rectangle(0, 0, 135, 195);
+                    mCurrentState = State.Idle;
+                }
 
             }
 
         }
+
+
+        private void MovementAnimation()
+        { //suport 3 frames
+            if (mCurrentDirection == Direction.Left)
+            {
+                Source = new Rectangle(0, 0, 135, 195);
+            }
+            else
+            {
+                Source = new Rectangle(0+spriteOffset, 0, 135, 195);
+            }            
+        }
+
 
         private void UpdateJump(KeyboardState aCurrentKeyboardState)
         {
@@ -571,15 +306,16 @@ namespace CGProj
         }
 
 
+
         public override void Draw(SpriteBatch theSpriteBatch)
         {
 
-            foreach (Fireball aFireball in mFireballs)
+            /*foreach (Fireball aFireball in mFireballs)
             {
 
                 aFireball.Draw(theSpriteBatch);
 
-            }
+            }*/
 
 
 

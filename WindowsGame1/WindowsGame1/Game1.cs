@@ -27,7 +27,8 @@ namespace CGProj
 
         Bee mBeeSprite;
 
-        StaminaBar mStamina;
+
+       // StaminaBar mStamina;
       //  Sprite bee2;
 
         GraphicsDeviceManager graphics;
@@ -70,8 +71,9 @@ namespace CGProj
 
 
             mBeeSprite = new Bee();
+
           //  bee2 = new Sprite();
-            mStamina = new StaminaBar();
+           // mStamina = new StaminaBar();
 
 
 
@@ -116,7 +118,7 @@ namespace CGProj
 
             this.m_physicsEngine.registerMoveableSolid(mBeeSprite);
 
-            mStamina.LoadContent(this.Content);
+          //  mStamina.LoadContent(this.Content);
 
            // bee2.LoadContent(this.Content, "BEE");
 
@@ -171,9 +173,12 @@ namespace CGProj
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
+                this.Exit();
+
             mBeeSprite.Update(gameTime);
 
-            mStamina.stamina = mBeeSprite.stamina;
+         //   mStamina.stamina = mBeeSprite.stamina;
 
             if (mBeeSprite.screen == 1)
             {
@@ -272,13 +277,13 @@ namespace CGProj
 
             mBackgroundFive.Draw(this.spriteBatch);
 
-            this.mTerainManager.Draw(this.spriteBatch);
+          //  this.mTerainManager.Draw(this.spriteBatch);
 
            // test.Draw(this.spriteBatch);
 
             mBeeSprite.Draw(this.spriteBatch);
 
-            mStamina.Draw(this.spriteBatch);
+           // mStamina.Draw(this.spriteBatch);
 
             //bee2.Draw(this.spriteBatch);
 

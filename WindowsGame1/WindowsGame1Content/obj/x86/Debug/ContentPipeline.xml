@@ -118,6 +118,15 @@
       <Output>C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HealthBar2.xnb</Output>
       <Time>2012-02-26T19:20:37.3730347+00:00</Time>
     </Item>
+    <Item>
+      <Source>ninja.png</Source>
+      <Name>ninja</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\ninja.xnb</Output>
+      <Time>2012-03-12T16:00:26.1117452+00:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

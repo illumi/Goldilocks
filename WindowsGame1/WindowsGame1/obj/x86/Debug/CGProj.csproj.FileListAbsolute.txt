@@ -17,3 +17,4 @@ C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsG
 C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\obj\x86\Debug\WindowsGame1.exe
 C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\obj\x86\Debug\WindowsGame1.pdb
+C:\Users\Damo\Documents\Visual Studio 2010\Projects\CGproj\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\ninja.xnb
