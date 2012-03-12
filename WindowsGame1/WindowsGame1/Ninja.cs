@@ -101,7 +101,13 @@ namespace CGProj
                 //screen = 1;
             }
 
-            UpdateMovement(aCurrentKeyboardState);
+            /** 
+             * Catch all keyboard buttons here, alter state, and call UpdateAnimation after it. 
+             * UpdateAnimation should update the animation based on the global sprite state.
+             * The keyboard state shouldn't go further than this method unless we need to abstract it out for some reason?
+             **/
+
+            UpdateAnimation(aCurrentKeyboardState);
             UpdateJump(aCurrentKeyboardState);
             //UpdateFireball(theGameTime, aCurrentKeyboardState);
             mPreviousKeyboardState = aCurrentKeyboardState;
@@ -181,8 +187,7 @@ namespace CGProj
 
         }*/
 
-
-        private void UpdateMovement(KeyboardState aCurrentKeyboardState)
+        private void UpdateAnimation(KeyboardState aCurrentKeyboardState)
         {
             if (mCurrentState == State.Walking || mCurrentState == State.Idle)
             {

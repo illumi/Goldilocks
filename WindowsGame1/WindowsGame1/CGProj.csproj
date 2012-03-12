@@ -107,7 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bee.cs" />
+    <Compile Include="Ninja.cs" />
     <Compile Include="Engine\CollisionDetection.cs" />
     <Compile Include="Fireball.cs" />
     <Compile Include="platForm.cs" />
