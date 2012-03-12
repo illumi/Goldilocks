@@ -1,9 +1,9 @@
-XNA-Game-UnitTests/
-WindowsGame1/WindowsGame1Content/bin/
-WindowsGame1/WindowsGame1Content/obj/
-WindowsGame1/WindowsGame1/bin/
-WindowsGame1/WindowsGame1/obj/
-WindowsGame1/WindowsGame1/Properties/
+XNA-Game-UnitTests/*
+WindowsGame1/WindowsGame1Content/bin/*
+WindowsGame1/WindowsGame1Content/obj/*
+WindowsGame1/WindowsGame1/bin/*
+WindowsGame1/WindowsGame1/obj/*
+WindowsGame1/WindowsGame1/Properties/*
 *.cachefile
 *.log
 *.exe
