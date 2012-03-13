@@ -30,7 +30,9 @@ namespace CGProj
 
 
         private Timer animationTimer = new Timer();
-        private int tick = 1;
+        private Timer animationTimerAttack = new Timer();
+        private int tickWalk = 1;
+        private int tickAttackThrow = 4;
 
         const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
@@ -56,7 +58,6 @@ namespace CGProj
 
 
         public State mCurrentState = State.Idle;
-
         public Direction mCurrentDirection = Direction.Right;
         
         Vector2 mSpeed = Vector2.Zero;
@@ -83,19 +84,39 @@ namespace CGProj
 
             animationTimer.Interval = (1000) * (0.25); //step every 1/4 sec looks more realistic
             animationTimer.Enabled = true;
-            animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEventWalk);
+
+            animationTimerAttack.Interval = (1000) * (0.25); //step every 1/4 sec looks more realistic
+            animationTimerAttack.Enabled = true;
+            animationTimerAttack.Elapsed += new ElapsedEventHandler(OnTimedEventAttackThrow);
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e) //do something more useful here!
+        private void OnTimedEventWalk(object source, ElapsedEventArgs e) //do something more useful here!
         {
-            if (tick >= 2)
+            if (tickWalk >= 2)
             {
-                tick = 1;
+                tickWalk = 1;
             }
             else
             {
-                tick++;
+                tickWalk++;
             }
+        }
+
+        private void OnTimedEventAttackThrow(object source, ElapsedEventArgs e) //do something more useful here!
+        {
+            if (mCurrentState == State.Attack || mCurrentState == State.Throw)
+            {
+                if (tickAttackThrow > 3)
+                {
+                    mCurrentState = State.Idle;
+                }
+                else
+                {
+                    tickAttackThrow++;
+                }
+            }
+
         }
 
 
@@ -220,6 +241,18 @@ namespace CGProj
                     mDirection.X = MOVE_RIGHT;
 
                 }
+                else if (aCurrentKeyboardState.IsKeyDown(Keys.E) == true) //attack
+                {
+                    mCurrentState = State.Attack;
+                    tickAttackThrow = 1;
+                    AttackAnimation();
+                }
+                else if (aCurrentKeyboardState.IsKeyDown(Keys.Q) == true) //throw
+                {
+                    mCurrentState = State.Throw;
+                    tickAttackThrow = 1;
+                    ThrowAnimation();
+                }
                 else //idle
                 {
                     mCurrentState = State.Idle;
@@ -231,14 +264,30 @@ namespace CGProj
                     {
                         Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
                     }
-                   /* else
-                    {
-                        Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
-                    }*/
+                    /* else
+                     {
+                         Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
+                     }*/
                 }
 
             }
 
+        }
+
+        private void AttackAnimation()
+        {
+            if (mCurrentDirection == Direction.Left)
+                Source = new Rectangle((185 * tickWalk), 0, 185, 195);
+            else
+                Source = new Rectangle((185 * tickWalk) + spriteOffset, 0, 185, 195);
+        }
+
+        private void ThrowAnimation()
+        {
+            if (mCurrentDirection == Direction.Left)
+                Source = new Rectangle((175 * tickWalk), 0, 175, 195);
+            else
+                Source = new Rectangle((175 * tickWalk) + spriteOffset, 0, 175, 195);
         }
 
 
@@ -246,11 +295,11 @@ namespace CGProj
         { 
             if (mCurrentDirection == Direction.Left)
             {
-                Source = new Rectangle((135 * tick), 0, 135, 195);
+                Source = new Rectangle((135 * tickWalk), 0, 135, 195);
             }
             else
             {
-                Source = new Rectangle((135 * tick) + spriteOffset, 0, 135, 195);
+                Source = new Rectangle((135 * tickWalk) + spriteOffset, 0, 135, 195);
             }            
         }
 
