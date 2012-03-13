@@ -22,6 +22,7 @@ namespace CGProj
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
         const int MOVE_RIGHT = 1;
+        const int ATTACKRANGE = 20;
         //int gifpos = 1;
         //bool back = false;
         //static int flightDuation = 300;
