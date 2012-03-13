@@ -86,7 +86,7 @@ namespace CGProj
             animationTimer.Enabled = true;
             animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEventWalk);
 
-            animationTimerAttack.Interval = (1000) * (0.25); //step every 1/4 sec looks more realistic
+            animationTimerAttack.Interval = (1000) * (0.2); //step every 1/4 sec looks more realistic
             animationTimerAttack.Enabled = true;
             animationTimerAttack.Elapsed += new ElapsedEventHandler(OnTimedEventAttackThrow);
         }
@@ -107,13 +107,24 @@ namespace CGProj
         {
             if (mCurrentState == State.Attack || mCurrentState == State.Throw)
             {
-                if (tickAttackThrow > 3)
+                if (tickAttackThrow >= 2)
                 {
                     mCurrentState = State.Idle;
+                    MovementAnimation();
+                    
                 }
                 else
                 {
                     tickAttackThrow++;
+                    if (mCurrentState == State.Attack)
+                    {
+                        AttackAnimation();
+                    }
+                    else
+                    {
+                        ThrowAnimation();
+                    }
+
                 }
             }
 
@@ -244,13 +255,14 @@ namespace CGProj
                 else if (aCurrentKeyboardState.IsKeyDown(Keys.E) == true) //attack
                 {
                     mCurrentState = State.Attack;
-                    tickAttackThrow = 1;
+                    tickAttackThrow = 0;
+
                     AttackAnimation();
                 }
                 else if (aCurrentKeyboardState.IsKeyDown(Keys.Q) == true) //throw
                 {
                     mCurrentState = State.Throw;
-                    tickAttackThrow = 1;
+                    tickAttackThrow = 0;
                     ThrowAnimation();
                 }
                 else //idle
@@ -277,17 +289,17 @@ namespace CGProj
         private void AttackAnimation()
         {
             if (mCurrentDirection == Direction.Left)
-                Source = new Rectangle((185 * tickWalk), 0, 185, 195);
+                Source = new Rectangle((185 * tickAttackThrow), 195, 185, 195);
             else
-                Source = new Rectangle((185 * tickWalk) + spriteOffset, 0, 185, 195);
+                Source = new Rectangle((185 * tickAttackThrow) + spriteOffset, 195, 185, 195);
         }
 
         private void ThrowAnimation()
         {
             if (mCurrentDirection == Direction.Left)
-                Source = new Rectangle((175 * tickWalk), 0, 175, 195);
+                Source = new Rectangle((175 * tickAttackThrow), 390, 175, 195);
             else
-                Source = new Rectangle((175 * tickWalk) + spriteOffset, 0, 175, 195);
+                Source = new Rectangle((175 * tickAttackThrow) + spriteOffset, 390, 175, 195);
         }
 
 
