@@ -17,7 +17,12 @@ namespace CGProj
 
         public Vector2 Position = new Vector2(0, 0);
         protected Vector2 mDirection = Vector2.Zero;
+        protected Vector2 mSpeed = Vector2.Zero;
         //The texture object used when drawing the sprite
+
+
+        public int GRAVITY = 250;
+
 
         public string AssetName;
 
@@ -27,7 +32,8 @@ namespace CGProj
 
         public Rectangle Size;
 
-        private float mScale = 0.5f;
+        private float mWidthScale = 0.5f;
+        private float mHeightScale = 0.5f;
 
         public Vector2 CenterPoint
         {
@@ -82,19 +88,60 @@ namespace CGProj
         //When the scale is modified throught he property, the Size of the 
 
         //sprite is recalculated with the new scale applied.
+
         public float Scale
         {
-            get { return mScale; }
+            get { return mWidthScale; }
             set
             {
-                mScale = value;
-
+                mWidthScale = value;
+                mHeightScale = value;
                 //Recalculate the Size of the Sprite with the new scale
 
-                Size = new Rectangle(0, 0, (int)(Source.Width * Scale), (int)(Source.Height * Scale));
+                Size = new Rectangle(0, 0, (int)(Source.Width * mWidthScale), (int)(Source.Height * mHeightScale));
             }
         }
 
+
+        public float WidthScale
+        {
+            get { return mWidthScale; }
+            set
+            {
+                mWidthScale = value;
+
+                //Recalculate the Size of the Sprite with the new scale
+
+                Size = new Rectangle(0, 0, (int)(Source.Width * WidthScale), (int)(Source.Height * HeightScale));
+            }
+        }
+
+        public float HeightScale
+        {
+            get { return mHeightScale; }
+            set
+            {
+                mHeightScale = value;
+
+                //Recalculate the Size of the Sprite with the new scale
+
+                Size = new Rectangle(0, 0, (int)(Source.Width * WidthScale), (int)(Source.Height * HeightScale));
+            }
+        }
+
+
+
+
+
+        public void decrementYSpeed()
+        {
+            mSpeed.Y -= GRAVITY;
+            if(mSpeed.Y <= 0)
+            {
+                mSpeed.Y *= -1;
+                mDirection.Y = 1;
+            }
+        }
 
         //Update the Sprite and change it's position based on the passed in speed, direction and elapsed time.
 
@@ -113,14 +160,14 @@ namespace CGProj
             mSpriteTexture = theContentManager.Load<Texture2D>(theAssetName);
             AssetName = theAssetName;
             Source = new Rectangle(0, 0, mSpriteTexture.Width, mSpriteTexture.Height);
-            Size = new Rectangle(0, 0, (int)(mSpriteTexture.Width * Scale), (int)(mSpriteTexture.Height * Scale));
+            Size = new Rectangle(0, 0, (int)(mSpriteTexture.Width * WidthScale), (int)(mSpriteTexture.Height * HeightScale));
         }
 
         public virtual void Draw(SpriteBatch theSpriteBatch)
         {
 
             theSpriteBatch.Draw(mSpriteTexture, Position, Source,
-                Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
+                Color.White, 0.0f, Vector2.Zero, new Vector2(WidthScale, HeightScale), SpriteEffects.None, 0);
 
         }
 

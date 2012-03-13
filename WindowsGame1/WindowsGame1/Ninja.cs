@@ -18,10 +18,12 @@ namespace CGProj
         const int START_POSITION_X = 0;
         const int START_POSITION_Y = 450;
         const int SPEED = 260;
+        const int JUMPFORCE = 2000;
         const int MOVE_UP = -1;
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
         const int MOVE_RIGHT = 1;
+        const int ATTACKRANGE = 20;
         //int gifpos = 1;
         //bool back = false;
         //static int flightDuation = 300;
@@ -60,9 +62,8 @@ namespace CGProj
         public State mCurrentState = State.Idle;
         public Direction mCurrentDirection = Direction.Right;
         
-        Vector2 mSpeed = Vector2.Zero;
         KeyboardState mPreviousKeyboardState;
-        Vector2 mStartingPosition = Vector2.Zero;
+        Vector2 mStartingPosition = new Vector2(START_POSITION_X, START_POSITION_Y);
         //List<Fireball> mFireballs = new List<Fireball>();
 
         ContentManager mContentManager;
@@ -132,7 +133,7 @@ namespace CGProj
 
 
         public void Update(GameTime theGameTime)
-        {
+         {
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
            // Below:  resets position of char if it reaches the width of the screen. 
 
@@ -226,8 +227,8 @@ namespace CGProj
         {
             if (mCurrentState == State.Walking || mCurrentState == State.Idle)
             {
-                mSpeed = Vector2.Zero;
-                mDirection = Vector2.Zero;
+                mSpeed.X = 0;
+                mDirection.X = 0;
 
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true) //left
                 {
@@ -330,21 +331,21 @@ namespace CGProj
             if (mCurrentState == State.Jumping)
             {
 
-                if (mStartingPosition.Y - Position.Y > 150)
+                /*if (mStartingPosition.Y - Position.Y > 150)
                 {
                     JumpAnimation();
                     mDirection.Y = MOVE_DOWN;
-                }
+                }*/
 
 
 
-                if (Position.Y > mStartingPosition.Y)
+                /*if (Position.Y > mStartingPosition.Y)
                 {
                     Position.Y = mStartingPosition.Y;
                     mCurrentState = State.Idle;
-                    mDirection = Vector2.Zero;
+                    //mDirection = Vector2.Zero;
                     JumpAnimation();
-                }
+                }*/
 
 
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
@@ -362,9 +363,9 @@ namespace CGProj
             {
 
                 mCurrentState = State.Jumping;
-                mStartingPosition = Position;
+                //mStartingPosition = Position;
                 mDirection.Y = MOVE_UP;
-                mSpeed = new Vector2(SPEED, SPEED);
+                mSpeed.Y = JUMPFORCE;
                 onfloor = false;
             }
         }
@@ -417,10 +418,12 @@ namespace CGProj
 
         public override void collidedFloor(Vector2 colcp, float colH)
         {
+            mSpeed.Y = 0;
+
             if (onfloor) return;
 
 
-            Position.Y = colcp.Y + (colH/2);
+            //Position.Y = colcp.Y + (colH/2);
              mSpeed = new Vector2(0, 0);
             onfloor = true;
             mCurrentState = State.Idle;
