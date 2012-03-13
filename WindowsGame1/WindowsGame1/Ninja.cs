@@ -31,6 +31,7 @@ namespace CGProj
 
         private Timer animationTimer = new Timer();
         private int tick = 1;
+        
 
         const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
@@ -304,6 +305,7 @@ namespace CGProj
                 mStartingPosition = Position;
                 mDirection.Y = MOVE_UP;
                 mSpeed = new Vector2(SPEED, SPEED);
+                onfloor = false;
             }
         }
 
@@ -351,5 +353,18 @@ namespace CGProj
             }*/
             base.Draw(theSpriteBatch);
         }
+
+
+        public override void collidedFloor(Vector2 colcp, float colH)
+        {
+            if (onfloor) return;
+
+
+            Position.Y = colcp.Y + (colH/2);
+             mSpeed = new Vector2(0, 0);
+            onfloor = true;
+            mCurrentState = State.Idle;
+        }
+
     }
 }

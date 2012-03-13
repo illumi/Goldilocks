@@ -366,7 +366,7 @@ namespace CGProj
 
             mBackgroundFive.Draw(this.spriteBatch);
 
-          //  this.mTerainManager.Draw(this.spriteBatch);
+            this.mTerainManager.Draw(this.spriteBatch);
 
            // test.Draw(this.spriteBatch);
 

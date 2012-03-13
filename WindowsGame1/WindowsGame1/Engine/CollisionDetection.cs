@@ -41,10 +41,17 @@ namespace CGProj.Engine
                     float fizedHeight = fSprite.height / 2;
                     float fixedWidth = fSprite.width / 2;
 
-                    if (
-                            ((moveingPos.Y + moveingHeight) > (fSprite.CenterPoint.Y - fizedHeight)) // check for y collisions
-                            && occupiesSameXSpace(moveingPos,moveingWidth,fSprite.CenterPoint,fixedWidth))   
-                             moveing.collidedFloor(moveingPos, fSprite.height);
+                    /*if (((moveingPos.Y + moveingHeight) > (fSprite.CenterPoint.Y - fizedHeight)) // check for y collisions
+                            && occupiesSameXSpace(moveingPos, moveingWidth, fSprite.CenterPoint, fixedWidth))
+                    {
+                        moveing.collidedFloor(moveingPos, fSprite.height);
+                    }*/
+                    if (occupiesSameYSpace(moveingPos, moveingHeight, fSprite.CenterPoint, fizedHeight) 
+                        && occupiesSameXSpace(moveingPos, moveingWidth, fSprite.CenterPoint, fixedWidth))
+                    {
+                        moveing.collidedFloor(moveingPos, fSprite.height);
+                    }
+
 
                 }
             }
@@ -57,11 +64,26 @@ namespace CGProj.Engine
 
             float obj2RightEdge = center2.X + width2;
             float obj2LeftEdge = center2.X - width2;
-
-            if ((obj1RightEdge > obj2LeftEdge) && (obj1LeftEdge < obj2RightEdge))
+            
+            if ((obj1RightEdge >= obj2LeftEdge) && (obj1LeftEdge <= obj2RightEdge))
                 return true;
             
             return false;
         }
+        public Boolean occupiesSameYSpace(Vector2 center1, float height1, Vector2 center2, float height2)
+        {
+            float obj1TopEdge = center1.Y - height1;
+            float obj1BottomEdge = center1.Y + height1;
+
+            float obj2BottomEdge = center2.Y + height2;
+            float obj2TopEdge = center2.Y - height2;
+
+            if ((obj1BottomEdge >= obj2TopEdge) && (obj1TopEdge <= obj2BottomEdge))
+                return true;
+
+            return false;
+        }
+
+
     }
 }

@@ -46,7 +46,8 @@ namespace CGProj
             get { return Size.Width; }
         }
 
-       
+        public bool onfloor = true;
+
         
 
         //Load the texture for the sprite using the Content Pipeline
