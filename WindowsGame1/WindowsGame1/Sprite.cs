@@ -17,7 +17,6 @@ namespace CGProj
 
         public Vector2 Position = new Vector2(0, 0);
         protected Vector2 mDirection = Vector2.Zero;
-        public int screen = 0;
         //The texture object used when drawing the sprite
 
         public string AssetName;

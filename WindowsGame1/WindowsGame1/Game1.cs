@@ -19,6 +19,10 @@ namespace CGProj
         private Engine.Pyhsics m_physicsEngine = new Engine.Pyhsics();
         private TerainManager mTerainManager = new TerainManager();
 
+
+        public bool screenloaded = false;
+        public int currscreen = 0;
+
         Sprite mBackgroundOne;
         Sprite mBackgroundTwo;
         Sprite mBackgroundThree;
@@ -180,7 +184,22 @@ namespace CGProj
 
          //   mStamina.stamina = mBeeSprite.stamina;
 
-            if (mNinjaSprite.screen == 1)
+
+            if (mNinjaSprite.Position.X >= 790)
+            {
+                mNinjaSprite.Position.X = 0;
+                currscreen++;
+                screenloaded = false;
+            }
+            else if (mNinjaSprite.Position.X < 0)
+            {
+                mNinjaSprite.Position.X = 0;
+            }
+
+
+
+
+            if (currscreen == 1 && screenloaded == false)
             {
                 Back1 = "comeatmebro";
                 Back2 = "comeatmebro";
@@ -188,65 +207,135 @@ namespace CGProj
                 Back4 = "comeatmebro";
                 Back5 = "comeatmebro";
                 LoadContent();
-                mNinjaSprite.screen = 0;
-                
+                mNinjaSprite.LoadContent(this.Content);
+                screenloaded = true;
+            }
+            else if (currscreen == 2 && screenloaded == false)
+            {
+                Back1 = "BackgroundCloud01";
+                Back2 = "BackgroundCloud01";
+                Back3 = "BackgroundCloud01";
+                Back4 = "BackgroundCloud01";
+                Back5 = "BackgroundCloud01";
+                LoadContent();
+                mNinjaSprite.LoadContent(this.Content);
+                screenloaded = true;
             }
 
-
-            if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
+            if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Right && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping))
             {
 
-                mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
+                if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
+                {
+
+                    mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
+                }
+
+
+
+                if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
+                {
+
+                    mBackgroundTwo.Position.X = mBackgroundOne.Position.X + mBackgroundOne.Size.Width;
+                }
+
+
+
+                if (mBackgroundThree.Position.X < -mBackgroundThree.Size.Width)
+                {
+
+                    mBackgroundThree.Position.X = mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width;
+                }
+
+
+
+                if (mBackgroundFour.Position.X < -mBackgroundFour.Size.Width)
+                {
+
+                    mBackgroundFour.Position.X = mBackgroundThree.Position.X + mBackgroundThree.Size.Width;
+                }
+
+
+
+                if (mBackgroundFive.Position.X < -mBackgroundFive.Size.Width)
+                {
+
+                    mBackgroundFive.Position.X = mBackgroundFour.Position.X + mBackgroundFour.Size.Width;
+                }
+
+                Vector2 aDirection = new Vector2(-1, 0);
+
+                Vector2 aSpeed = new Vector2(160, 0);
+
+
+                mBackgroundOne.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundThree.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundFour.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             }
-
-
-
-            if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
+            else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
             {
 
-                mBackgroundTwo.Position.X = mBackgroundOne.Position.X + mBackgroundOne.Size.Width;
+                if (mBackgroundOne.Position.X > mBackgroundOne.Size.Width)
+                {
+
+                    mBackgroundOne.Position.X = mBackgroundFive.Position.X - mBackgroundFive.Size.Width;
+                }
+
+
+
+                if (mBackgroundTwo.Position.X > mBackgroundTwo.Size.Width)
+                {
+
+                    mBackgroundTwo.Position.X = mBackgroundOne.Position.X - mBackgroundOne.Size.Width;
+                }
+
+
+
+                if (mBackgroundThree.Position.X > mBackgroundThree.Size.Width)
+                {
+
+                    mBackgroundThree.Position.X = mBackgroundTwo.Position.X - mBackgroundTwo.Size.Width;
+                }
+
+
+
+                if (mBackgroundFour.Position.X > mBackgroundFour.Size.Width)
+                {
+
+                    mBackgroundFour.Position.X = mBackgroundThree.Position.X - mBackgroundThree.Size.Width;
+                }
+
+
+
+                if (mBackgroundFive.Position.X > mBackgroundFive.Size.Width)
+                {
+
+                    mBackgroundFive.Position.X = mBackgroundFour.Position.X - mBackgroundFour.Size.Width;
+                }
+
+                Vector2 aDirection = new Vector2(-1, 0);
+
+                Vector2 aSpeed = new Vector2(160, 0);
+
+
+                mBackgroundOne.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundTwo.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundThree.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundFour.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             }
-
-
-
-            if (mBackgroundThree.Position.X < -mBackgroundThree.Size.Width)
-            {
-
-                mBackgroundThree.Position.X = mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width;
-            }
-
-
-
-            if (mBackgroundFour.Position.X < -mBackgroundFour.Size.Width)
-            {
-
-                mBackgroundFour.Position.X = mBackgroundThree.Position.X + mBackgroundThree.Size.Width;
-            }
-
-
-
-            if (mBackgroundFive.Position.X < -mBackgroundFive.Size.Width)
-            {
-
-                mBackgroundFive.Position.X = mBackgroundFour.Position.X + mBackgroundFour.Size.Width;
-            }
-
-            Vector2 aDirection = new Vector2(-1, 0);
-
-            Vector2 aSpeed = new Vector2(160, 0);
-
-
-            mBackgroundOne.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            mBackgroundThree.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            mBackgroundFour.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-
 
             this.m_physicsEngine.notifyCollisions();
             base.Update(gameTime);

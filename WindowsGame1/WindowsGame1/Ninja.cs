@@ -27,8 +27,10 @@ namespace CGProj
         //static int flightDuation = 300;
         //public int stamina = flightDuation;
 
-        private Timer animationTimer = new Timer();
 
+
+        private Timer animationTimer = new Timer();
+        private int tick = 1;
 
         const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
@@ -37,7 +39,7 @@ namespace CGProj
             get { return stamina; }
         }*/
 
-        enum State
+        public enum State
         {
             Idle,
             Walking,
@@ -46,16 +48,16 @@ namespace CGProj
             Throw,
         }
 
-        enum Direction
+        public enum Direction
         {
             Left,
             Right,
         }
 
 
-        State mCurrentState = State.Idle;
+        public State mCurrentState = State.Idle;
 
-        Direction mCurrentDirection = Direction.Right;
+        public Direction mCurrentDirection = Direction.Right;
         
         Vector2 mSpeed = Vector2.Zero;
         KeyboardState mPreviousKeyboardState;
@@ -79,15 +81,21 @@ namespace CGProj
             base.LoadContent(theContentManager, ASSETNAME);
             Source = new Rectangle(0, 0, 135, 195);
 
-            animationTimer.Interval = (1000) * (1);
+            animationTimer.Interval = (1000) * (0.25); //step every 1/4 sec looks more realistic
             animationTimer.Enabled = true;
             animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e) //do something more useful here!
         {
-            int i = 0;
-            i++;
+            if (tick >= 2)
+            {
+                tick = 1;
+            }
+            else
+            {
+                tick++;
+            }
         }
 
 
@@ -95,11 +103,6 @@ namespace CGProj
         {
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
            // Below:  resets position of char if it reaches the width of the screen. 
-            if (Position.X >= 790)
-            {
-                Position.X = 0;
-                //screen = 1;
-            }
 
             /** 
              * Catch all keyboard buttons here, alter state, and call UpdateAnimation after it. 
@@ -220,7 +223,18 @@ namespace CGProj
                 else //idle
                 {
                     mCurrentState = State.Idle;
-                    Source = new Rectangle(0, 0, 135, 195);
+                    if (mPreviousKeyboardState.IsKeyDown(Keys.Left) == true || mPreviousKeyboardState.IsKeyDown(Keys.A) == true)//left idle
+                    {
+                        Source = new Rectangle(0, 0, 135, 195);
+                    }
+                    else if (mPreviousKeyboardState.IsKeyDown(Keys.Right) == true || mPreviousKeyboardState.IsKeyDown(Keys.D) == true)//right idle
+                    {
+                        Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
+                    }
+                   /* else
+                    {
+                        Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
+                    }*/
                 }
 
             }
@@ -228,15 +242,15 @@ namespace CGProj
         }
 
 
-        private void MovementAnimation() //TODO suport 3 frames
+        private void MovementAnimation() 
         { 
             if (mCurrentDirection == Direction.Left)
             {
-                Source = new Rectangle(0, 0, 135, 195);
+                Source = new Rectangle((135 * tick), 0, 135, 195);
             }
             else
             {
-                Source = new Rectangle(0+spriteOffset, 0, 135, 195);
+                Source = new Rectangle((135 * tick) + spriteOffset, 0, 135, 195);
             }            
         }
 
@@ -248,13 +262,16 @@ namespace CGProj
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                 {
                     Jump();
+                    JumpAnimation();
                 }
             }
 
             if (mCurrentState == State.Jumping)
             {
+
                 if (mStartingPosition.Y - Position.Y > 150)
                 {
+                    JumpAnimation();
                     mDirection.Y = MOVE_DOWN;
                 }
 
@@ -263,13 +280,15 @@ namespace CGProj
                 if (Position.Y > mStartingPosition.Y)
                 {
                     Position.Y = mStartingPosition.Y;
-                    mCurrentState = State.Walking;
+                    mCurrentState = State.Idle;
                     mDirection = Vector2.Zero;
+                    JumpAnimation();
                 }
 
 
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                 {
+                    JumpAnimation();
                     Jump();
                 }
             }
@@ -288,6 +307,41 @@ namespace CGProj
             }
         }
 
+
+        private void JumpAnimation() 
+        {
+            if(mCurrentDirection == Direction.Left) //left
+            {
+                if (mStartingPosition.Y - Position.Y > 150) //coming down
+                {
+                    Source = new Rectangle(135, 585, 135, 195);
+                }
+                else if (mCurrentState == State.Idle)
+                {
+                    Source = new Rectangle(0, 0, 135, 195);
+                }
+                else //coming down going up
+                {
+                    Source = new Rectangle(0, 585, 135, 195);
+                }
+            }
+            else //right
+            {
+                if (mStartingPosition.Y - Position.Y > 150) //coming down
+                {
+                    Source = new Rectangle(135 + spriteOffset, 585, 135, 195);
+                }
+                else if (mCurrentState == State.Idle)
+                {
+                    Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
+                }
+                else //coming down going up
+                {
+                    Source = new Rectangle(0 + spriteOffset, 585, 135, 195);
+                }
+            }
+        
+        }
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
