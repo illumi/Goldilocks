@@ -15,7 +15,7 @@ namespace CGProj
         public bool Visible = false;
 
         Vector2 mStartPosition;
-        Vector2 mSpeed;
+        //Vector2 mSpeed;
 
         public void LoadContent(ContentManager theContentManager)
         {
