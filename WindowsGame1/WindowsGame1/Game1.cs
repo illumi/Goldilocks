@@ -206,8 +206,11 @@ namespace CGProj
                 Back3 = "comeatmebro";
                 Back4 = "comeatmebro";
                 Back5 = "comeatmebro";
-                LoadContent();
-                mNinjaSprite.LoadContent(this.Content);
+                mBackgroundOne.LoadContent(this.Content, Back1);
+                mBackgroundTwo.LoadContent(this.Content, Back2);
+                mBackgroundThree.LoadContent(this.Content, Back3);
+                mBackgroundFour.LoadContent(this.Content, Back4);
+                mBackgroundFive.LoadContent(this.Content, Back5);
                 screenloaded = true;
             }
             else if (currscreen == 2 && screenloaded == false)
@@ -217,8 +220,11 @@ namespace CGProj
                 Back3 = "BackgroundCloud01";
                 Back4 = "BackgroundCloud01";
                 Back5 = "BackgroundCloud01";
-                LoadContent();
-                mNinjaSprite.LoadContent(this.Content);
+                mBackgroundOne.LoadContent(this.Content, Back1);
+                mBackgroundTwo.LoadContent(this.Content, Back2);
+                mBackgroundThree.LoadContent(this.Content, Back3);
+                mBackgroundFour.LoadContent(this.Content, Back4);
+                mBackgroundFive.LoadContent(this.Content, Back5);
                 screenloaded = true;
             }
 

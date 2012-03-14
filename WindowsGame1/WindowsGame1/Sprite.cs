@@ -21,7 +21,7 @@ namespace CGProj
         //The texture object used when drawing the sprite
 
 
-        public int GRAVITY = 250;
+        public const int GRAVITY = 250;
 
 
         public string AssetName;
