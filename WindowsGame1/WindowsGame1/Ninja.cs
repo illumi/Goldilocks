@@ -29,8 +29,6 @@ namespace CGProj
         //static int flightDuation = 300;
         //public int stamina = flightDuation;
 
-
-
         private Timer animationTimer = new Timer();
         private Timer animationTimerAttack = new Timer();
         private int tickWalk = 1;
@@ -87,7 +85,7 @@ namespace CGProj
             animationTimer.Enabled = true;
             animationTimer.Elapsed += new ElapsedEventHandler(OnTimedEventWalk);
 
-            animationTimerAttack.Interval = (1000) * (0.2); //step every 1/4 sec looks more realistic
+            animationTimerAttack.Interval = (1000) * (0.1); //step every 1/10 sec looks more realistic
             animationTimerAttack.Enabled = true;
             animationTimerAttack.Elapsed += new ElapsedEventHandler(OnTimedEventAttackThrow);
         }
@@ -150,7 +148,6 @@ namespace CGProj
 
             base.Update(theGameTime, mSpeed, mDirection);
         }
-
 
     /*    private void UpdateFireball(GameTime theGameTime, KeyboardState aCurrentKeyboardState)
         {
@@ -319,39 +316,12 @@ namespace CGProj
 
         private void UpdateJump(KeyboardState aCurrentKeyboardState)
         {
-            if (mCurrentState == State.Walking)
+            if (mCurrentState == State.Walking || mCurrentState == State.Idle)
             {
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                 {
                     Jump();
                     JumpAnimation();
-                }
-            }
-
-            if (mCurrentState == State.Jumping)
-            {
-
-                /*if (mStartingPosition.Y - Position.Y > 150)
-                {
-                    JumpAnimation();
-                    mDirection.Y = MOVE_DOWN;
-                }*/
-
-
-
-                /*if (Position.Y > mStartingPosition.Y)
-                {
-                    Position.Y = mStartingPosition.Y;
-                    mCurrentState = State.Idle;
-                    //mDirection = Vector2.Zero;
-                    JumpAnimation();
-                }*/
-
-
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
-                {
-                    JumpAnimation();
-                    Jump();
                 }
             }
         }
@@ -361,7 +331,6 @@ namespace CGProj
         {
             if (mCurrentState != State.Jumping)
             {
-
                 mCurrentState = State.Jumping;
                 //mStartingPosition = Position;
                 mDirection.Y = MOVE_UP;
@@ -422,12 +391,10 @@ namespace CGProj
 
             if (onfloor) return;
 
-
             //Position.Y = colcp.Y + (colH/2);
-             mSpeed = new Vector2(0, 0);
+            mSpeed = new Vector2(0, 0);
             onfloor = true;
             mCurrentState = State.Idle;
         }
-
     }
 }
