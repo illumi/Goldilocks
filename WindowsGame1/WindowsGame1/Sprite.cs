@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-
 using Microsoft.Xna.Framework.Content;
-
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -68,21 +66,15 @@ namespace CGProj
 
         public Rectangle Source
         {
-
             get { return mSource; }
-
             set
             {
-
                 mSource = value;
 
                 Size = new Rectangle(0, 0, (int)(mSource.Width * Scale), (int)(mSource.Height * Scale));
 
             }
-
         }
-
-
 
 
         //When the scale is modified throught he property, the Size of the 
@@ -128,8 +120,6 @@ namespace CGProj
                 Size = new Rectangle(0, 0, (int)(Source.Width * WidthScale), (int)(Source.Height * HeightScale));
             }
         }
-
-
 
 
 
@@ -182,9 +172,6 @@ namespace CGProj
 
         }
         #endregion
-
-
-
 
     }
 

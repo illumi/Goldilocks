@@ -25,8 +25,6 @@ namespace CGProj
        
         public override void Draw(SpriteBatch theSpriteBatch)
         {
-            //theSpriteBatch.Begin();
-
             theSpriteBatch.Draw(base.mSpriteTexture, new Rectangle(windowWidth / 2 - base.mSpriteTexture.Width / 2,
             30, base.mSpriteTexture.Width, 44), new Rectangle(0, 45, base.mSpriteTexture.Width, 44), Color.Gray);
 
@@ -35,9 +33,6 @@ namespace CGProj
 
             theSpriteBatch.Draw(base.mSpriteTexture, new Rectangle(windowWidth / 2 - base.mSpriteTexture.Width / 2,
             30, base.mSpriteTexture.Width, 44), new Rectangle(0, 0, base.mSpriteTexture.Width, 44), Color.White);
-
-
-           // theSpriteBatch.End();
         }
 
 

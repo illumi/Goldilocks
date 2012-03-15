@@ -19,6 +19,16 @@ namespace CGProj
         private Engine.Pyhsics m_physicsEngine = new Engine.Pyhsics();
         private TerainManager mTerainManager = new TerainManager();
 
+        public enum GameStates
+        {
+            Menu,
+            InGame
+        }
+
+        Menu menu;
+
+        public static GameStates gamestate;
+        private SpriteFont arial;
 
         public bool screenloaded = false;
         public int currscreen = 0;
@@ -61,6 +71,9 @@ namespace CGProj
         /// </summary>
         protected override void Initialize()
         {
+            menu = new Menu();
+            gamestate = GameStates.Menu;
+            
             this.IsMouseVisible = true;
 
             //Change the resolution to 800x600
@@ -76,8 +89,8 @@ namespace CGProj
 
             mNinjaSprite = new Ninja();
 
-          //  bee2 = new Sprite();
-           // mStamina = new StaminaBar();
+            //  bee2 = new Sprite();
+            // mStamina = new StaminaBar();
 
 
 
@@ -117,7 +130,7 @@ namespace CGProj
             mTerainManager.loadTerainContents(this.Content);
             mTerainManager.registerSprites(this.m_physicsEngine);
             // TODO: use this.Content to load your game content here
-
+            arial = Content.Load<SpriteFont>("Arial");
             mNinjaSprite.LoadContent(this.Content);
 
             this.m_physicsEngine.registerMoveableSolid(mNinjaSprite);
@@ -148,12 +161,6 @@ namespace CGProj
 
             mBackgroundFive.Position = new Vector2(mBackgroundFour.Position.X + mBackgroundFour.Size.Width, 0);
 
-
-            
-
-
-
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -173,178 +180,211 @@ namespace CGProj
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+
+            /*if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
-                this.Exit();
+                this.Exit();*/
 
-            mNinjaSprite.Update(gameTime);
-
-         //   mStamina.stamina = mBeeSprite.stamina;
-
-
-            if (mNinjaSprite.Position.X >= 790)
+            if (gamestate == GameStates.Menu)
             {
-                mNinjaSprite.Position.X = 0;
-                currscreen++;
-                screenloaded = false;
+                if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Up) || Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.W))
+                {
+                    menu.Iterator++;
+                }
+                else if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Down) || Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.S))
+                {
+                    menu.Iterator--;
+                }
+
+                if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Enter) || Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.E))
+                {
+                    if (menu.Iterator == 0)
+                    {
+                        gamestate = GameStates.InGame;
+                        SetUpGame();
+                    }
+                    else if (menu.Iterator == 1)
+                    {
+                        this.Exit();
+                    }
+                    menu.Iterator = 0;
+                }
             }
-            else if (mNinjaSprite.Position.X < 0)
+            else if (gamestate == GameStates.InGame)
             {
-                mNinjaSprite.Position.X = 0;
+                mNinjaSprite.Update(gameTime);
+
+                //mStamina.stamina = mBeeSprite.stamina;
+
+
+                if (mNinjaSprite.Position.X >= 790)
+                {
+                    mNinjaSprite.Position.X = 0;
+                    currscreen++;
+                    screenloaded = false;
+                }
+                else if (mNinjaSprite.Position.X < 0)
+                {
+                    mNinjaSprite.Position.X = 0;
+                }
+
+
+                if (currscreen == 1 && screenloaded == false)
+                {
+                    Back1 = "comeatmebro";
+                    Back2 = "comeatmebro";
+                    Back3 = "comeatmebro";
+                    Back4 = "comeatmebro";
+                    Back5 = "comeatmebro";
+                    mBackgroundOne.LoadContent(this.Content, Back1);
+                    mBackgroundTwo.LoadContent(this.Content, Back2);
+                    mBackgroundThree.LoadContent(this.Content, Back3);
+                    mBackgroundFour.LoadContent(this.Content, Back4);
+                    mBackgroundFive.LoadContent(this.Content, Back5);
+                    screenloaded = true;
+                }
+                else if (currscreen == 2 && screenloaded == false)
+                {
+                    Back1 = "BackgroundCloud01";
+                    Back2 = "BackgroundCloud01";
+                    Back3 = "BackgroundCloud01";
+                    Back4 = "BackgroundCloud01";
+                    Back5 = "BackgroundCloud01";
+                    mBackgroundOne.LoadContent(this.Content, Back1);
+                    mBackgroundTwo.LoadContent(this.Content, Back2);
+                    mBackgroundThree.LoadContent(this.Content, Back3);
+                    mBackgroundFour.LoadContent(this.Content, Back4);
+                    mBackgroundFive.LoadContent(this.Content, Back5);
+                    screenloaded = true;
+                }
+                /* TODO needs fixed to take into acount actual vector of player sprite. Jumping vertically moves background weirdly too.
+                if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Right && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping))
+                {
+
+                    if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
+                    {
+
+                        mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
+                    {
+
+                        mBackgroundTwo.Position.X = mBackgroundOne.Position.X + mBackgroundOne.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundThree.Position.X < -mBackgroundThree.Size.Width)
+                    {
+
+                        mBackgroundThree.Position.X = mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundFour.Position.X < -mBackgroundFour.Size.Width)
+                    {
+
+                        mBackgroundFour.Position.X = mBackgroundThree.Position.X + mBackgroundThree.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundFive.Position.X < -mBackgroundFive.Size.Width)
+                    {
+
+                        mBackgroundFive.Position.X = mBackgroundFour.Position.X + mBackgroundFour.Size.Width;
+                    }
+
+                    Vector2 aDirection = new Vector2(-1, 0);
+
+                    Vector2 aSpeed = new Vector2(160, 0);
+
+
+                    mBackgroundOne.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundThree.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundFour.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                }
+                else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
+                {
+
+                    if (mBackgroundOne.Position.X > mBackgroundOne.Size.Width)
+                    {
+
+                        mBackgroundOne.Position.X = mBackgroundFive.Position.X - mBackgroundFive.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundTwo.Position.X > mBackgroundTwo.Size.Width)
+                    {
+
+                        mBackgroundTwo.Position.X = mBackgroundOne.Position.X - mBackgroundOne.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundThree.Position.X > mBackgroundThree.Size.Width)
+                    {
+
+                        mBackgroundThree.Position.X = mBackgroundTwo.Position.X - mBackgroundTwo.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundFour.Position.X > mBackgroundFour.Size.Width)
+                    {
+
+                        mBackgroundFour.Position.X = mBackgroundThree.Position.X - mBackgroundThree.Size.Width;
+                    }
+
+
+
+                    if (mBackgroundFive.Position.X > mBackgroundFive.Size.Width)
+                    {
+
+                        mBackgroundFive.Position.X = mBackgroundFour.Position.X - mBackgroundFour.Size.Width;
+                    }
+
+                    Vector2 aDirection = new Vector2(-1, 0);
+
+                    Vector2 aSpeed = new Vector2(160, 0);
+
+
+                    mBackgroundOne.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundTwo.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundThree.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundFour.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                }*/
+
+                this.m_physicsEngine.notifyCollisions();
             }
+            else { /*new game state additions here, pause, loading, whatever.*/ }
 
-
-
-
-            if (currscreen == 1 && screenloaded == false)
-            {
-                Back1 = "comeatmebro";
-                Back2 = "comeatmebro";
-                Back3 = "comeatmebro";
-                Back4 = "comeatmebro";
-                Back5 = "comeatmebro";
-                mBackgroundOne.LoadContent(this.Content, Back1);
-                mBackgroundTwo.LoadContent(this.Content, Back2);
-                mBackgroundThree.LoadContent(this.Content, Back3);
-                mBackgroundFour.LoadContent(this.Content, Back4);
-                mBackgroundFive.LoadContent(this.Content, Back5);
-                screenloaded = true;
-            }
-            else if (currscreen == 2 && screenloaded == false)
-            {
-                Back1 = "BackgroundCloud01";
-                Back2 = "BackgroundCloud01";
-                Back3 = "BackgroundCloud01";
-                Back4 = "BackgroundCloud01";
-                Back5 = "BackgroundCloud01";
-                mBackgroundOne.LoadContent(this.Content, Back1);
-                mBackgroundTwo.LoadContent(this.Content, Back2);
-                mBackgroundThree.LoadContent(this.Content, Back3);
-                mBackgroundFour.LoadContent(this.Content, Back4);
-                mBackgroundFive.LoadContent(this.Content, Back5);
-                screenloaded = true;
-            }
-
-            if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Right && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping))
-            {
-
-                if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
-                {
-
-                    mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
-                }
-
-
-
-                if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
-                {
-
-                    mBackgroundTwo.Position.X = mBackgroundOne.Position.X + mBackgroundOne.Size.Width;
-                }
-
-
-
-                if (mBackgroundThree.Position.X < -mBackgroundThree.Size.Width)
-                {
-
-                    mBackgroundThree.Position.X = mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width;
-                }
-
-
-
-                if (mBackgroundFour.Position.X < -mBackgroundFour.Size.Width)
-                {
-
-                    mBackgroundFour.Position.X = mBackgroundThree.Position.X + mBackgroundThree.Size.Width;
-                }
-
-
-
-                if (mBackgroundFive.Position.X < -mBackgroundFive.Size.Width)
-                {
-
-                    mBackgroundFive.Position.X = mBackgroundFour.Position.X + mBackgroundFour.Size.Width;
-                }
-
-                Vector2 aDirection = new Vector2(-1, 0);
-
-                Vector2 aSpeed = new Vector2(160, 0);
-
-
-                mBackgroundOne.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundThree.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundFour.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            }
-            else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
-            {
-
-                if (mBackgroundOne.Position.X > mBackgroundOne.Size.Width)
-                {
-
-                    mBackgroundOne.Position.X = mBackgroundFive.Position.X - mBackgroundFive.Size.Width;
-                }
-
-
-
-                if (mBackgroundTwo.Position.X > mBackgroundTwo.Size.Width)
-                {
-
-                    mBackgroundTwo.Position.X = mBackgroundOne.Position.X - mBackgroundOne.Size.Width;
-                }
-
-
-
-                if (mBackgroundThree.Position.X > mBackgroundThree.Size.Width)
-                {
-
-                    mBackgroundThree.Position.X = mBackgroundTwo.Position.X - mBackgroundTwo.Size.Width;
-                }
-
-
-
-                if (mBackgroundFour.Position.X > mBackgroundFour.Size.Width)
-                {
-
-                    mBackgroundFour.Position.X = mBackgroundThree.Position.X - mBackgroundThree.Size.Width;
-                }
-
-
-
-                if (mBackgroundFive.Position.X > mBackgroundFive.Size.Width)
-                {
-
-                    mBackgroundFive.Position.X = mBackgroundFour.Position.X - mBackgroundFour.Size.Width;
-                }
-
-                Vector2 aDirection = new Vector2(-1, 0);
-
-                Vector2 aSpeed = new Vector2(160, 0);
-
-
-                mBackgroundOne.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundTwo.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundThree.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundFour.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            }
-
-            this.m_physicsEngine.notifyCollisions();
             base.Update(gameTime);
+        }
+
+        private void SetUpGame()
+        {
+            
         }
 
         /// <summary>
@@ -361,30 +401,33 @@ namespace CGProj
 
             spriteBatch.Begin();
 
+            if (gamestate == GameStates.InGame)
+            {
+                mBackgroundOne.Draw(this.spriteBatch);
 
-            mBackgroundOne.Draw(this.spriteBatch);
+                mBackgroundTwo.Draw(this.spriteBatch);
 
-            mBackgroundTwo.Draw(this.spriteBatch);
+                mBackgroundThree.Draw(this.spriteBatch);
 
-            mBackgroundThree.Draw(this.spriteBatch);
+                mBackgroundFour.Draw(this.spriteBatch);
 
-            mBackgroundFour.Draw(this.spriteBatch);
+                mBackgroundFive.Draw(this.spriteBatch);
 
-            mBackgroundFive.Draw(this.spriteBatch);
+                this.mTerainManager.Draw(this.spriteBatch);
 
-            this.mTerainManager.Draw(this.spriteBatch);
+                mNinjaSprite.Draw(this.spriteBatch);
 
-           // test.Draw(this.spriteBatch);
+                //mStamina.Draw(this.spriteBatch);
 
-            mNinjaSprite.Draw(this.spriteBatch);
-
-           // mStamina.Draw(this.spriteBatch);
-
-            //bee2.Draw(this.spriteBatch);
+                //bee2.Draw(this.spriteBatch);
+            }
+            else if (gamestate == GameStates.Menu)
+            {
+                menu.DrawMenu(spriteBatch, 800, arial);
+            }
+            else { }
 
             spriteBatch.End();
-
-
 
             base.Draw(gameTime);
         }
