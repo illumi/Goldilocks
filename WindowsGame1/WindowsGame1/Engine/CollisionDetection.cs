@@ -49,8 +49,12 @@ namespace CGProj.Engine
                     if (occupiesSameYSpace(moveingPos, moveingHeight, fSprite.CenterPoint, fizedHeight) 
                         && occupiesSameXSpace(moveingPos, moveingWidth, fSprite.CenterPoint, fixedWidth))
                     {
-                        moveing.collidedFloor(moveingPos, fSprite.height);
+                        moveing.collidedFloor(fSprite.Position, fSprite.height);
+                        moveing.collidedWall(fSprite.Position, fSprite.width);
                     }
+
+
+
 
 
                 }

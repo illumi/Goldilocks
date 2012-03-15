@@ -23,7 +23,7 @@ namespace CGProj
         public void LoadContent(ContentManager theContentManager)
         {
             WidthScale = length;
-            HeightScale = 1;
+            HeightScale = 0.2f;
             m_ContentManager = theContentManager;
             base.LoadContent(theContentManager, PLATFORM_ASSETNAME);
         }

@@ -39,7 +39,7 @@ namespace CGProj
         {
             get { Vector2 centP = new Vector2();
             centP.X = Position.X + (width / 2);
-            centP.Y = Position.Y - (height / 2);
+            centP.Y = Position.Y + (height / 2);
             return centP;
             }
         }
@@ -175,8 +175,11 @@ namespace CGProj
         #region collision_Detection_Virtuals
         public virtual void collidedFloor(Vector2 colcp, float colH)
         {
-            int i = 0;
-            i++;
+
+        }
+        public virtual void collidedWall(Vector2 colcp, float colW)
+        {
+
         }
         #endregion
 

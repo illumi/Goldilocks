@@ -418,15 +418,54 @@ namespace CGProj
 
         public override void collidedFloor(Vector2 colcp, float colH)
         {
-            mSpeed.Y = 0;
+            if (CenterPoint.Y <= colcp.Y)
+            {
+                mSpeed.Y = 0;
+            }
+            else
+            {
+                //mSpeed.Y = GRAVITY;
+                //onfloor = false;
+                
+            }
 
             if (onfloor) return;
 
+            if (CenterPoint.Y <= colcp.Y)
+            {
+                mSpeed = new Vector2(0, 0);
+                onfloor = true;
+                mCurrentState = State.Idle;
+            }
+            else
+            {
+                return;
+
+            }
 
             //Position.Y = colcp.Y + (colH/2);
-             mSpeed = new Vector2(0, 0);
-            onfloor = true;
-            mCurrentState = State.Idle;
+
+        }
+
+
+        public override void collidedWall(Vector2 colcp, float colW)
+        {
+            if ((Position.X <= (colcp.X + (colW * 2))) && (Position.X >= (colcp.X + ((colW * 2))-2)) && (CenterPoint.Y > colcp.Y)) //left collision
+            {
+                mSpeed.X = 0;
+            }
+            else if (((Position.X + width) >= colcp.X) && ((Position.X+width) <= (colcp.X+2)) && (CenterPoint.Y > colcp.Y)) //right collision
+            {
+                mSpeed.X = 0;
+
+            }
+            else
+            {
+                return;
+            }
+
+            
+
         }
 
     }
