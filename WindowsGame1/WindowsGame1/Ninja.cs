@@ -228,17 +228,24 @@ namespace CGProj
 
         private void UpdateAnimation(KeyboardState aCurrentKeyboardState)
         {
-            if (mCurrentState == State.Walking || mCurrentState == State.Idle)
+            if (mCurrentState == State.Walking || mCurrentState == State.Idle || mCurrentState == State.Jumping)
             {
                 mSpeed.X = 0;
                 mDirection.X = 0;
 
                 if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true || aCurrentKeyboardState.IsKeyDown(Keys.A) == true) //left
                 {
-                    mCurrentState = State.Walking;
                     mCurrentDirection = Direction.Left;
 
-                    MovementAnimation();
+                    if (mCurrentState != State.Jumping) //air control
+                    {
+                        mCurrentState = State.Walking;
+                        MovementAnimation();
+                    }
+                    else
+                    {
+                        JumpAnimation();
+                    }
 
                     mSpeed.X = SPEED;
                     mDirection.X = MOVE_LEFT;
@@ -247,10 +254,17 @@ namespace CGProj
 
                 else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true || aCurrentKeyboardState.IsKeyDown(Keys.D) == true) //right
                 {
-                    mCurrentState = State.Walking;
                     mCurrentDirection = Direction.Right;
 
-                    MovementAnimation();
+                    if (mCurrentState != State.Jumping) //air control
+                    {
+                        mCurrentState = State.Walking;
+                        MovementAnimation();
+                    }
+                    else
+                    {
+                        JumpAnimation();
+                    }
 
                     mSpeed.X = SPEED;
                     mDirection.X = MOVE_RIGHT;
@@ -269,7 +283,7 @@ namespace CGProj
                     tickAttackThrow = 0;
                     ThrowAnimation();
                 }
-                else //idle
+                else if (mCurrentState != State.Jumping) //idle
                 {
                     mCurrentState = State.Idle;
                     if (mPreviousKeyboardState.IsKeyDown(Keys.Left) == true || mPreviousKeyboardState.IsKeyDown(Keys.A) == true)//left idle
@@ -286,9 +300,7 @@ namespace CGProj
                         gamestart = 1;
                     }
                 }
-
             }
-
         }
 
         private void AttackAnimation()
