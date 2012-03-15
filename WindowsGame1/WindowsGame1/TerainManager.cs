@@ -14,8 +14,8 @@ namespace CGProj
         {
             // initalise the map terains here
 
-            terrains.Add(new platForm(400, 360, 1));
-            terrains.Add(new platForm(200, 360, 1));
+            terrains.Add(new platForm(600, 380, 1));
+            terrains.Add(new platForm(200, 380, 1));
             terrains.Add(new platForm(0, 570, 6));
         }
 
