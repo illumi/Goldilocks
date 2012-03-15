@@ -22,7 +22,8 @@ namespace CGProj
         public enum GameStates
         {
             Menu,
-            InGame
+            InGame,
+            Building,
         }
 
         Menu menu;

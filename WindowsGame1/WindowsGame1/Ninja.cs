@@ -33,8 +33,6 @@ namespace CGProj
         private Timer animationTimerAttack = new Timer();
         private int tickWalk = 1;
         private int tickAttackThrow = 4;
-        private int gamestart = 0;
-
 
         const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
@@ -147,7 +145,6 @@ namespace CGProj
             UpdateAnimation(aCurrentKeyboardState);
             UpdateJump(aCurrentKeyboardState);
             //UpdateFireball(theGameTime, aCurrentKeyboardState);
-
 
             mPreviousKeyboardState = aCurrentKeyboardState;
 
@@ -286,18 +283,14 @@ namespace CGProj
                 else if (mCurrentState != State.Jumping) //idle
                 {
                     mCurrentState = State.Idle;
-                    if (mPreviousKeyboardState.IsKeyDown(Keys.Left) == true || mPreviousKeyboardState.IsKeyDown(Keys.A) == true)//left idle
+
+                    if (mCurrentDirection == Direction.Left) //left idle
                     {
                         Source = new Rectangle(0, 0, 135, 195);
                     }
-                    else if (mPreviousKeyboardState.IsKeyDown(Keys.Right) == true || mPreviousKeyboardState.IsKeyDown(Keys.D) == true)//right idle
+                    else //right idle
                     {
                         Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
-                    }
-                    else if (gamestart == 0)
-                    {
-                        Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
-                        gamestart = 1;
                     }
                 }
             }
@@ -367,10 +360,6 @@ namespace CGProj
                 {
                     Source = new Rectangle(135, 585, 135, 195);
                 }
-                else if (mCurrentState == State.Idle)
-                {
-                    Source = new Rectangle(0, 0, 135, 195);
-                }
                 else //coming down going up
                 {
                     Source = new Rectangle(0, 585, 135, 195);
@@ -381,10 +370,6 @@ namespace CGProj
                 if (mStartingPosition.Y - Position.Y > 150) //coming down
                 {
                     Source = new Rectangle(135 + spriteOffset, 585, 135, 195);
-                }
-                else if (mCurrentState == State.Idle)
-                {
-                    Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
                 }
                 else //coming down going up
                 {
