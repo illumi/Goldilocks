@@ -360,7 +360,7 @@ namespace CGProj
                 {
                     Source = new Rectangle(135, 585, 135, 195);
                 }
-                else //coming down going up
+                else //going up
                 {
                     Source = new Rectangle(0, 585, 135, 195);
                 }
@@ -371,7 +371,7 @@ namespace CGProj
                 {
                     Source = new Rectangle(135 + spriteOffset, 585, 135, 195);
                 }
-                else //coming down going up
+                else //going up
                 {
                     Source = new Rectangle(0 + spriteOffset, 585, 135, 195);
                 }

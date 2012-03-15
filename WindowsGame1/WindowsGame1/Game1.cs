@@ -215,6 +215,12 @@ namespace CGProj
             }
             else if (gamestate == GameStates.InGame)
             {
+
+                if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
+                {
+                    gamestate = GameStates.Menu;
+                }
+
                 mTerainManager.Update(gameTime); // ############THIS IS THE METHOD THAT MOVES THE BLOCKS WITH THE MOUSE [PUT IN IT'S OWN STATE]####
                 
                 mNinjaSprite.Update(gameTime);
