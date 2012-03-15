@@ -214,6 +214,8 @@ namespace CGProj
             }
             else if (gamestate == GameStates.InGame)
             {
+                mTerainManager.Update(gameTime); // ############THIS IS THE METHOD THAT MOVES THE BLOCKS WITH THE MOUSE [PUT IN IT'S OWN STATE]####
+                
                 mNinjaSprite.Update(gameTime);
 
                 //mStamina.stamina = mBeeSprite.stamina;
@@ -259,8 +261,8 @@ namespace CGProj
                     mBackgroundFive.LoadContent(this.Content, Back5);
                     screenloaded = true;
                 }
-                /* TODO needs fixed to take into acount actual vector of player sprite. Jumping vertically moves background weirdly too.
-                if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Right && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping))
+                /* TODO needs fixed to take into acount actual vector of player sprite. Jumping vertically moves background weirdly too.*/
+                if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Right && (mNinjaSprite.mSpeed.X > 0) && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping))
                 {
 
                     if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
@@ -317,7 +319,7 @@ namespace CGProj
                     mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 }
-                else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
+                else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mSpeed.X > 0) && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
                 {
 
                     if (mBackgroundOne.Position.X > mBackgroundOne.Size.Width)
@@ -373,7 +375,7 @@ namespace CGProj
 
                     mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                }*/
+                }
 
                 this.m_physicsEngine.notifyCollisions();
             }

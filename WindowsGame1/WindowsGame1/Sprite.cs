@@ -15,7 +15,7 @@ namespace CGProj
 
         public Vector2 Position = new Vector2(0, 0);
         protected Vector2 mDirection = Vector2.Zero;
-        protected Vector2 mSpeed = Vector2.Zero;
+        public  Vector2 mSpeed = Vector2.Zero;
         //The texture object used when drawing the sprite
 
 
@@ -41,6 +41,22 @@ namespace CGProj
             return centP;
             }
         }
+
+        public float CenterPointX
+        {
+            set
+            {
+                Position.X = value - (width / 2);
+            }
+        }
+        public float CenterPointY
+        {
+            set
+            {
+                Position.Y = value - (height / 2);
+            }
+        }
+
         public float height
         {
             get { return Size.Height; }

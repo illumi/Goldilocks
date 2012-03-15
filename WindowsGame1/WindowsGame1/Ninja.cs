@@ -18,7 +18,7 @@ namespace CGProj
         const int START_POSITION_X = 0;
         const int START_POSITION_Y = 450;
         const int SPEED = 260;
-        const int JUMPFORCE = 2000;
+        const int JUMPFORCE = 2100;
         const int MOVE_UP = -1;
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
@@ -135,6 +135,7 @@ namespace CGProj
         public void Update(GameTime theGameTime)
          {
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
+    
            // Below:  resets position of char if it reaches the width of the screen. 
 
             /** 
@@ -146,7 +147,10 @@ namespace CGProj
             UpdateAnimation(aCurrentKeyboardState);
             UpdateJump(aCurrentKeyboardState);
             //UpdateFireball(theGameTime, aCurrentKeyboardState);
+
+
             mPreviousKeyboardState = aCurrentKeyboardState;
+
 
             base.Update(theGameTime, mSpeed, mDirection);
         }
@@ -377,6 +381,7 @@ namespace CGProj
             }
         
         }
+
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
