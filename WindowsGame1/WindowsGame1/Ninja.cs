@@ -33,6 +33,8 @@ namespace CGProj
         private Timer animationTimerAttack = new Timer();
         private int tickWalk = 1;
         private int tickAttackThrow = 4;
+        private int gamestart = 0;
+
 
         const int spriteOffset = 675; //Ninja offset left = 0, right = 675
         
@@ -274,10 +276,11 @@ namespace CGProj
                     {
                         Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
                     }
-                    /* else
-                     {
-                         Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
-                     }*/
+                    else if (gamestart == 0)
+                    {
+                        Source = new Rectangle(0 + spriteOffset, 0, 135, 195);
+                        gamestart = 1;
+                    }
                 }
 
             }
