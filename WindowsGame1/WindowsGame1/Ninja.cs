@@ -339,7 +339,7 @@ namespace CGProj
 
         private void Jump()
         {
-            if (mCurrentState != State.Jumping)
+            if (mCurrentState != State.Jumping && falling == false)
             {
                 mCurrentState = State.Jumping;
                 //mStartingPosition = Position;
