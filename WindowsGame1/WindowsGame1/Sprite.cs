@@ -19,7 +19,7 @@ namespace CGProj
         //The texture object used when drawing the sprite
 
 
-        public const int GRAVITY = 250;
+        public const int GRAVITY = 100;
 
 
         public string AssetName;
@@ -32,6 +32,9 @@ namespace CGProj
 
         private float mWidthScale = 0.5f;
         private float mHeightScale = 0.5f;
+
+        public bool falling = false;
+
 
         public Vector2 CenterPoint
         {
@@ -146,7 +149,13 @@ namespace CGProj
             {
                 mSpeed.Y *= -1;
                 mDirection.Y = 1;
+                falling = true;
             }
+        }
+
+        public void incrementYSpeed()
+        {
+            mSpeed.Y += GRAVITY;
         }
 
         //Update the Sprite and change it's position based on the passed in speed, direction and elapsed time.

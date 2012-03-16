@@ -44,7 +44,14 @@ namespace CGProj.Engine
         {
             foreach (Sprite moveing in m_moveingObjects)
             {
-                moveing.decrementYSpeed();
+                if (moveing.falling == false)
+                {
+                    moveing.decrementYSpeed();
+                }
+                else if (moveing.falling == true)
+                {
+                    moveing.incrementYSpeed();
+                }
             }
         }
     }

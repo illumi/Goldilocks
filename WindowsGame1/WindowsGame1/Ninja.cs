@@ -18,7 +18,7 @@ namespace CGProj
         const int START_POSITION_X = 0;
         const int START_POSITION_Y = 450;
         const int SPEED = 260;
-        const int JUMPFORCE = 2100;
+        const int JUMPFORCE = 1500;
         const int MOVE_UP = -1;
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
@@ -347,6 +347,7 @@ namespace CGProj
                 //mStartingPosition = Position;
                 mDirection.Y = MOVE_UP;
                 mSpeed.Y = JUMPFORCE;
+                mSpeed.X *= 4 ;
                 onfloor = false;
             }
         }
@@ -395,6 +396,7 @@ namespace CGProj
             if (CenterPoint.Y <= colcp.Y)
             {
                 mSpeed.Y = 0;
+                falling = false;
             }
             else
             {
@@ -407,6 +409,7 @@ namespace CGProj
 
             if (CenterPoint.Y <= colcp.Y)
             {
+                falling = false;
                 mSpeed = new Vector2(0, 0);
                 onfloor = true;
                 mCurrentState = State.Idle;
