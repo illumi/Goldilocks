@@ -123,10 +123,8 @@ namespace CGProj
                     {
                         ThrowAnimation();
                     }
-
                 }
             }
-
         }
 
 
@@ -267,14 +265,14 @@ namespace CGProj
                     mDirection.X = MOVE_RIGHT;
 
                 }
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.E) == true) //attack
+                else if (aCurrentKeyboardState.IsKeyDown(Keys.E) == true && mCurrentState != State.Jumping) //attack
                 {
                     mCurrentState = State.Attack;
                     tickAttackThrow = 0;
 
                     AttackAnimation();
                 }
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Q) == true) //throw
+                else if (aCurrentKeyboardState.IsKeyDown(Keys.Q) == true && mCurrentState != State.Jumping) //throw
                 {
                     mCurrentState = State.Throw;
                     tickAttackThrow = 0;
@@ -377,7 +375,6 @@ namespace CGProj
                     Source = new Rectangle(0 + spriteOffset, 585, 135, 195);
                 }
             }
-        
         }
 
 
