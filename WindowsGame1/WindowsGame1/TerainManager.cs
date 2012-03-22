@@ -17,11 +17,59 @@ namespace CGProj
         public TerainManager()
         {
             // initalise the map terains here
- 
-            terrains.Add(new platForm(600, 380, 1, true));
-            terrains.Add(new platForm(200, 380, 1, true));
-            terrains.Add(new platForm(0, 570, 6, false));
+
+            terrains.Add(new platForm(600, 380, 1, true, "platform", 0, 0, 200, 30));
+            terrains.Add(new platForm(200, 380, 1, true, "platform", 0, 0, 200, 30));
+            terrains.Add(new platForm(0, 570, 1, false, "level1", 0, 330, 245, 20));
+            terrains.Add(new platForm(243, 538, 1, false, "level1", 243, 298, 56, 100));//243 298			56 100
+            terrains.Add(new platForm(298, 602, 1, false, "level1", 298, 362, 341, 88));//298 362			341 88
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//503 282			76 20 
+            terrains.Add(new platForm(703, 602, 1, false, "level1", 703, 362, 616, 80)); // 703 362			616 80	
+
+            terrains.Add(new platForm(843, 555, 1, false, "level1", 843, 315, 96, 63));// 843 315			96 63
+
+            terrains.Add(new platForm(904, 506, 1, false, "level1", 904, 266, 96, 111));// 904 266			96 111
+
+            terrains.Add(new platForm(998, 538, 1, false, "level1", 998, 298, 21, 82));//998 298			21 82
+
+            terrains.Add(new platForm(1414, 502, 1, false, "level1", 1414, 362, 96, 49));//1414 362		96 49
+
+           /* terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1502 346		20 15
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1443 283		97 20
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1601 283		20 15
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1518 378		247 63
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1762 342		65 50
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1823 315		136 79
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1958 362		81 79
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1697 205		20 15
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1807 134		20 15
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//1902 90 		60 15
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2104 363		55 80
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2223 363		248 40
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2463 331		150 50
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2603 283		141 56
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2743 235		76 74
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2783 187		97 20
+
+            terrains.Add(new platForm(503, 522, 1, false, "level1", 503, 282, 76, 20));//2814 282		362 161 */
+
         }
+	
 
         public void registerSprites(Engine.Pyhsics physicsEngine)
         {
