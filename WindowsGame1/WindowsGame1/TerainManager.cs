@@ -17,7 +17,7 @@ namespace CGProj
         public TerainManager()
         {
             // initalise the map terains here
-
+            
             terrains.Add(new platForm(600, 380, 1, true, "platform", 0, 0, 200, 30));
             terrains.Add(new platForm(200, 380, 1, true, "platform", 0, 0, 200, 30));
             terrains.Add(new platForm(0, 570, 1, false, "level1", 0, 330, 245, 20));
