@@ -49,11 +49,11 @@ namespace CGProj
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        String Back1 = "Background01";
-        String Back2 = "Background02";
-        String Back3 = "Background03";
-        String Back4 = "Background04";
-        String Back5 = "Background05";
+        String Back1 = "level1_clouds";
+        //String Back2 = "Background02";
+        //String Back3 = "Background03";
+        //String Back4 = "Background04";
+        //String Back5 = "Background05";
         
 
 
@@ -77,11 +77,11 @@ namespace CGProj
             
             this.IsMouseVisible = true;
 
-            //Change the resolution to 800x600
+            //Change the resolution to 1024X700
 
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferWidth = 1024;
 
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferHeight = 700;
 
             graphics.ApplyChanges();
 
@@ -99,7 +99,7 @@ namespace CGProj
 
             mBackgroundOne.Scale = 2.0f;
 
-            mBackgroundTwo = new Sprite();
+            /*mBackgroundTwo = new Sprite();
 
             mBackgroundTwo.Scale = 2.0f;
 
@@ -113,7 +113,7 @@ namespace CGProj
 
             mBackgroundFive = new Sprite();
 
-            mBackgroundFive.Scale = 2.0f;
+            mBackgroundFive.Scale = 2.0f;*/
 
  
 
@@ -146,7 +146,7 @@ namespace CGProj
 
             mBackgroundOne.Position = new Vector2(0, 0);
 
-            mBackgroundTwo.LoadContent(this.Content, Back2);
+           /* mBackgroundTwo.LoadContent(this.Content, Back2);
 
             mBackgroundTwo.Position = new Vector2(mBackgroundOne.Position.X + mBackgroundOne.Size.Width, 0);
 
@@ -160,7 +160,7 @@ namespace CGProj
 
             mBackgroundFive.LoadContent(this.Content, Back5);
 
-            mBackgroundFive.Position = new Vector2(mBackgroundFour.Position.X + mBackgroundFour.Size.Width, 0);
+            mBackgroundFive.Position = new Vector2(mBackgroundFour.Position.X + mBackgroundFour.Size.Width, 0);*/
 
             // TODO: use this.Content to load your game content here
         }
@@ -228,7 +228,7 @@ namespace CGProj
                 //mStamina.stamina = mBeeSprite.stamina;
 
 
-                if (mNinjaSprite.Position.X >= 790)
+                if (mNinjaSprite.Position.X >= 1024)
                 {
                     mNinjaSprite.Position.X = 0;
                     currscreen++;
@@ -242,30 +242,30 @@ namespace CGProj
 
                 if (currscreen == 1 && screenloaded == false)
                 {
-                    Back1 = "comeatmebro";
-                    Back2 = "comeatmebro";
+                   // Back1 = "comeatmebro";
+                   /* Back2 = "comeatmebro";
                     Back3 = "comeatmebro";
                     Back4 = "comeatmebro";
-                    Back5 = "comeatmebro";
+                    Back5 = "comeatmebro";*/
                     mBackgroundOne.LoadContent(this.Content, Back1);
-                    mBackgroundTwo.LoadContent(this.Content, Back2);
+                   /* mBackgroundTwo.LoadContent(this.Content, Back2);
                     mBackgroundThree.LoadContent(this.Content, Back3);
                     mBackgroundFour.LoadContent(this.Content, Back4);
-                    mBackgroundFive.LoadContent(this.Content, Back5);
+                    mBackgroundFive.LoadContent(this.Content, Back5);*/
                     screenloaded = true;
                 }
                 else if (currscreen == 2 && screenloaded == false)
                 {
-                    Back1 = "BackgroundCloud01";
-                    Back2 = "BackgroundCloud01";
+                   // Back1 = "BackgroundCloud01";
+                   /* Back2 = "BackgroundCloud01";
                     Back3 = "BackgroundCloud01";
                     Back4 = "BackgroundCloud01";
-                    Back5 = "BackgroundCloud01";
+                    Back5 = "BackgroundCloud01";*/
                     mBackgroundOne.LoadContent(this.Content, Back1);
-                    mBackgroundTwo.LoadContent(this.Content, Back2);
+                    /*mBackgroundTwo.LoadContent(this.Content, Back2);
                     mBackgroundThree.LoadContent(this.Content, Back3);
                     mBackgroundFour.LoadContent(this.Content, Back4);
-                    mBackgroundFive.LoadContent(this.Content, Back5);
+                    mBackgroundFive.LoadContent(this.Content, Back5);*/
                     screenloaded = true;
                 }
                 /* TODO needs fixed to take into acount actual vector of player sprite. Jumping vertically moves background weirdly too.*/
@@ -275,12 +275,12 @@ namespace CGProj
                     if (mBackgroundOne.Position.X < -mBackgroundOne.Size.Width)
                     {
 
-                        mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
+                       // mBackgroundOne.Position.X = mBackgroundFive.Position.X + mBackgroundFive.Size.Width;
                     }
 
 
 
-                    if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
+                  /*  if (mBackgroundTwo.Position.X < -mBackgroundTwo.Size.Width)
                     {
 
                         mBackgroundTwo.Position.X = mBackgroundOne.Position.X + mBackgroundOne.Size.Width;
@@ -309,7 +309,7 @@ namespace CGProj
 
                         mBackgroundFive.Position.X = mBackgroundFour.Position.X + mBackgroundFour.Size.Width;
                     }
-
+                    */
                     Vector2 aDirection = new Vector2(-1, 0);
 
                     Vector2 aSpeed = new Vector2(160, 0);
@@ -317,13 +317,13 @@ namespace CGProj
 
                     mBackgroundOne.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                  /*  mBackgroundTwo.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                     mBackgroundThree.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                     mBackgroundFour.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    mBackgroundFive.Position += aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;*/
 
                 }
                 else if (mNinjaSprite.mCurrentDirection == Ninja.Direction.Left && (mNinjaSprite.mSpeed.X > 0) && (mNinjaSprite.mCurrentState == Ninja.State.Walking || mNinjaSprite.mCurrentState == Ninja.State.Jumping) && mNinjaSprite.Position.X > 0)
@@ -332,12 +332,12 @@ namespace CGProj
                     if (mBackgroundOne.Position.X > mBackgroundOne.Size.Width)
                     {
 
-                        mBackgroundOne.Position.X = mBackgroundFive.Position.X - mBackgroundFive.Size.Width;
+                      //  mBackgroundOne.Position.X = mBackgroundFive.Position.X - mBackgroundFive.Size.Width;
                     }
 
 
 
-                    if (mBackgroundTwo.Position.X > mBackgroundTwo.Size.Width)
+                   /* if (mBackgroundTwo.Position.X > mBackgroundTwo.Size.Width)
                     {
 
                         mBackgroundTwo.Position.X = mBackgroundOne.Position.X - mBackgroundOne.Size.Width;
@@ -366,7 +366,7 @@ namespace CGProj
 
                         mBackgroundFive.Position.X = mBackgroundFour.Position.X - mBackgroundFour.Size.Width;
                     }
-
+                    */
                     Vector2 aDirection = new Vector2(-1, 0);
 
                     Vector2 aSpeed = new Vector2(160, 0);
@@ -374,13 +374,13 @@ namespace CGProj
 
                     mBackgroundOne.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    mBackgroundTwo.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                  /*  mBackgroundTwo.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                     mBackgroundThree.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                     mBackgroundFour.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    mBackgroundFive.Position -= aDirection * aSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;*/
 
                 }
 
@@ -414,13 +414,13 @@ namespace CGProj
             {
                 mBackgroundOne.Draw(this.spriteBatch);
 
-                mBackgroundTwo.Draw(this.spriteBatch);
+               /* mBackgroundTwo.Draw(this.spriteBatch);
 
                 mBackgroundThree.Draw(this.spriteBatch);
 
                 mBackgroundFour.Draw(this.spriteBatch);
 
-                mBackgroundFive.Draw(this.spriteBatch);
+                mBackgroundFive.Draw(this.spriteBatch);*/
 
                 this.mTerainManager.Draw(this.spriteBatch);
 
