@@ -427,11 +427,12 @@ namespace CGProj
             if ((Position.X <= (colcp.X + (colW * 2))) && ((Position.X >= ((colcp.X + ((colW-10))))) && (CenterPoint.Y > colcp.Y))) //left collision
             {
                 mSpeed.X = 0;
+                Position.X = colcp.X + (colW);
             }
             else if (((Position.X + width) >= colcp.X) && ((Position.X+width) <= (colcp.X+2)) && (CenterPoint.Y > colcp.Y)) //right collision
             {
                 mSpeed.X = 0;
-
+                Position.X = (colcp.X - 70);
             }
             else
             {
