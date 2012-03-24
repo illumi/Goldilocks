@@ -37,11 +37,10 @@ namespace CGProj
         Sprite mBackgroundOne;
         Sprite mBackgroundTwo;
         Sprite mBackgroundThree;
-        Sprite mBackgroundFour;
-        Sprite mBackgroundFive;
 
         Ninja mNinjaSprite;
 
+        AI mWizardSprite;
 
        // StaminaBar mStamina;
       //  Sprite bee2;
@@ -51,7 +50,7 @@ namespace CGProj
 
         String Back1 = "level1_clouds";
         //String Back2 = "Background02";
-        //String Back3 = "Background03";
+        String Back3 = "level1";
         //String Back4 = "Background04";
         //String Back5 = "Background05";
         
@@ -89,6 +88,15 @@ namespace CGProj
 
 
             mNinjaSprite = new Ninja();
+            mNinjaSprite.HeightScale = 0.4f;
+            mNinjaSprite.WidthScale = 0.4f;
+
+
+
+            mWizardSprite = new AI();
+            mWizardSprite.HeightScale = 0.4f;
+            mWizardSprite.WidthScale = 0.4f;
+
 
             //  bee2 = new Sprite();
             // mStamina = new StaminaBar();
@@ -99,15 +107,17 @@ namespace CGProj
 
             mBackgroundOne.Scale = 2.0f;
 
-            /*mBackgroundTwo = new Sprite();
+            //mBackgroundTwo = new Sprite();
 
-            mBackgroundTwo.Scale = 2.0f;
+            //mBackgroundTwo.Scale = 2.0f;
 
             mBackgroundThree = new Sprite();
 
-            mBackgroundThree.Scale = 2.0f;
+            mBackgroundThree.WidthScale = 1f;
 
-            mBackgroundFour = new Sprite();
+            mBackgroundThree.HeightScale = 1f;
+
+            /*mBackgroundFour = new Sprite();
 
             mBackgroundFour.Scale = 2.0f;
 
@@ -134,7 +144,11 @@ namespace CGProj
             arial = Content.Load<SpriteFont>("Arial");
             mNinjaSprite.LoadContent(this.Content);
 
+            mWizardSprite.LoadContent(this.Content);
+
             this.m_physicsEngine.registerMoveableSolid(mNinjaSprite);
+
+            this.m_physicsEngine.registerMoveableSolid(mWizardSprite);
 
           //  mStamina.LoadContent(this.Content);
 
@@ -146,15 +160,18 @@ namespace CGProj
 
             mBackgroundOne.Position = new Vector2(0, 0);
 
-           /* mBackgroundTwo.LoadContent(this.Content, Back2);
+           // mBackgroundTwo.LoadContent(this.Content, Back2);
 
-            mBackgroundTwo.Position = new Vector2(mBackgroundOne.Position.X + mBackgroundOne.Size.Width, 0);
+           // mBackgroundTwo.Position = new Vector2(mBackgroundOne.Position.X + mBackgroundOne.Size.Width, 0);
+           // mBackgroundThree.Source = new Rectangle(0,0,1024, 450);
 
             mBackgroundThree.LoadContent(this.Content, Back3);
 
-            mBackgroundThree.Position = new Vector2(mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width, 0);
+            mBackgroundThree.Position = new Vector2(0,240);//240
 
-            mBackgroundFour.LoadContent(this.Content, Back4);
+            //mBackgroundThree.Position = new Vector2(mBackgroundTwo.Position.X + mBackgroundTwo.Size.Width, 0);
+
+           /* mBackgroundFour.LoadContent(this.Content, Back4);
 
             mBackgroundFour.Position = new Vector2(mBackgroundThree.Position.X + mBackgroundThree.Size.Width, 0);
 
@@ -225,6 +242,35 @@ namespace CGProj
                 
                 mNinjaSprite.Update(gameTime);
 
+                mWizardSprite.Update(gameTime);
+
+
+                if (mWizardSprite.mCurrentState != AI.State.Dead)
+                {
+
+                    if (m_physicsEngine.m_colDetector.occupiesSameXSpace(mNinjaSprite.CenterPoint, mNinjaSprite.width, mWizardSprite.CenterPoint, mWizardSprite.width) && m_physicsEngine.m_colDetector.occupiesSameYSpace(mNinjaSprite.CenterPoint, mNinjaSprite.height, mWizardSprite.CenterPoint, mWizardSprite.height))
+                    {
+                        if (mNinjaSprite.CenterPoint.X >= mWizardSprite.Position.X && mNinjaSprite.CenterPoint.X <= mWizardSprite.CenterPoint.X)
+                        {
+                            if (mNinjaSprite.CenterPoint.Y >= mWizardSprite.Position.Y && mNinjaSprite.CenterPoint.Y <= mWizardSprite.CenterPoint.Y)
+                            {
+                                mNinjaSprite.Position.X = 0;
+                                mNinjaSprite.Position.Y = 100;
+                            }
+                        }
+                        
+                    }
+
+                    if (mNinjaSprite.Position.X < mWizardSprite.Position.X)
+                    {
+                        mWizardSprite.mCurrentDirection = AI.Direction.Left;
+                    }
+
+                    else if (mNinjaSprite.Position.X > mWizardSprite.Position.X)
+                    {
+                        mWizardSprite.mCurrentDirection = AI.Direction.Right;
+                    }
+                }
                 //mStamina.stamina = mBeeSprite.stamina;
 
 
@@ -232,12 +278,46 @@ namespace CGProj
                 {
                     mNinjaSprite.Position.X = 0;
                     currscreen++;
+                    mTerainManager.currscreen = currscreen;
+                    mTerainManager.loadLevel(this.m_physicsEngine);
+                    mTerainManager.loadTerainContents(this.Content);
+                    mTerainManager.registerSprites(this.m_physicsEngine);
+                    mBackgroundThree.Position.X -= 1024;
                     screenloaded = false;
                 }
                 else if (mNinjaSprite.Position.X < 0)
                 {
                     mNinjaSprite.Position.X = 0;
                 }
+
+                else if (mNinjaSprite.Position.Y > 800)
+                {
+                    mNinjaSprite.Position.Y = 100;
+                    mNinjaSprite.Position.X = 0;
+                }
+
+
+                if (mWizardSprite.Position.X >= 1024)
+                {
+                    mWizardSprite.Position.X = 0;
+                }
+
+                else if (mWizardSprite.Position.X < 0)
+                {
+                    mWizardSprite.Position.X = 0;
+                }
+
+                else if (mWizardSprite.Position.Y > 800)
+                {
+
+                    mWizardSprite.mCurrentState = AI.State.Dead;
+
+                    mWizardSprite.Position.Y = 100;
+                    mWizardSprite.Position.X = 200;
+
+                    
+                }
+
 
 
                 if (currscreen == 1 && screenloaded == false)
@@ -248,10 +328,6 @@ namespace CGProj
                     Back4 = "comeatmebro";
                     Back5 = "comeatmebro";*/
                     mBackgroundOne.LoadContent(this.Content, Back1);
-                   /* mBackgroundTwo.LoadContent(this.Content, Back2);
-                    mBackgroundThree.LoadContent(this.Content, Back3);
-                    mBackgroundFour.LoadContent(this.Content, Back4);
-                    mBackgroundFive.LoadContent(this.Content, Back5);*/
                     screenloaded = true;
                 }
                 else if (currscreen == 2 && screenloaded == false)
@@ -414,11 +490,11 @@ namespace CGProj
             {
                 mBackgroundOne.Draw(this.spriteBatch);
 
-               /* mBackgroundTwo.Draw(this.spriteBatch);
+               // mBackgroundTwo.Draw(this.spriteBatch);
 
                 mBackgroundThree.Draw(this.spriteBatch);
 
-                mBackgroundFour.Draw(this.spriteBatch);
+                /*mBackgroundFour.Draw(this.spriteBatch);
 
                 mBackgroundFive.Draw(this.spriteBatch);*/
 
@@ -426,6 +502,7 @@ namespace CGProj
 
                 mNinjaSprite.Draw(this.spriteBatch);
 
+                mWizardSprite.Draw(this.spriteBatch);
                 //mStamina.Draw(this.spriteBatch);
 
                 //bee2.Draw(this.spriteBatch);
