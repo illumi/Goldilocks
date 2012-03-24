@@ -23,6 +23,11 @@ namespace CGProj.Engine
             m_fixedObjects.Add(sObj);
         }
 
+        public void unAttatchFixed()
+        {
+            m_fixedObjects.Clear();
+        }
+
         public void attatchMoveing(Sprite mObj)
         {
             m_moveingObjects.Add(mObj);
