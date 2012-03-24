@@ -7,7 +7,7 @@ namespace CGProj.Engine
 {
     public class Pyhsics
     {
-        private CollisionDetection m_colDetector;
+        public CollisionDetection m_colDetector;
         private const float GRAVATY = 1;
 
         private List<Sprite> m_fixedObjects;
@@ -38,6 +38,11 @@ namespace CGProj.Engine
             m_colDetector.attatchFixed(fSolid);
         }
 
+        public void deRegisterFixedSolids()
+        {
+            m_fixedObjects.Clear();
+            m_colDetector.unAttatchFixed();
+        }
 
 
         public void updateVectors()
