@@ -270,6 +270,26 @@ namespace CGProj
                     {
                         mWizardSprite.mCurrentDirection = AI.Direction.Right;
                     }
+
+                    if (mNinjaSprite.CenterPoint.Y < mWizardSprite.Position.Y)
+                    {
+                        mWizardSprite.up = true;
+                    }
+                    else mWizardSprite.up = false;
+
+
+                    if (mNinjaSprite.mCurrentState == Ninja.State.Attack)
+                    {
+                        if (((mNinjaSprite.Position.X + mNinjaSprite.ATTACKRANGE) > mWizardSprite.Position.X) && mNinjaSprite.mCurrentDirection == Ninja.Direction.Right)
+                        {
+                            mWizardSprite.mCurrentState = AI.State.Dead;
+                        }
+                        else if (((mNinjaSprite.Position.X - mNinjaSprite.ATTACKRANGE) > mWizardSprite.Position.X) && mNinjaSprite.mCurrentDirection == Ninja.Direction.Left)
+                        {
+                            mWizardSprite.mCurrentState = AI.State.Dead;
+                        }
+                    }
+
                 }
                 //mStamina.stamina = mBeeSprite.stamina;
 
@@ -277,6 +297,9 @@ namespace CGProj
                 if (mNinjaSprite.Position.X >= 1024)
                 {
                     mNinjaSprite.Position.X = 0;
+                    mWizardSprite.Position.Y = 100;
+                    mWizardSprite.Position.X = 200;
+                    mWizardSprite.mCurrentState = AI.State.Alive;
                     currscreen++;
                     mTerainManager.currscreen = currscreen;
                     mTerainManager.loadLevel(this.m_physicsEngine);
