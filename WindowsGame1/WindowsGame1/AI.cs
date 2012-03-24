@@ -18,12 +18,14 @@ namespace CGProj
         const int START_POSITION_X = 500;
         const int START_POSITION_Y = 300;
         const int SPEED = 100;
-        //const int JUMPFORCE = 1500;
+        const int JUMPFORCE = 1000;
         const int MOVE_UP = -1;
         const int MOVE_DOWN = 1;
         const int MOVE_LEFT = -1;
         const int MOVE_RIGHT = 1;
         //const int ATTACKRANGE = 20;
+
+        public bool up = false;
 
 
         public enum State
@@ -64,6 +66,7 @@ namespace CGProj
         {
 
             UpdateBehaviour();
+            UpdateJump();
 
             base.Update(theGameTime, mSpeed, mDirection);
         }
@@ -73,6 +76,7 @@ namespace CGProj
         {
             if(mCurrentState == State.Alive)
             {
+                Source = new Rectangle(0, 0, 200, 200);
                 if (mCurrentDirection == Direction.Left)
                 {
                     mSpeed.X = SPEED;
@@ -93,6 +97,32 @@ namespace CGProj
                 Source = new Rectangle(200, 0, 200, 200);
             }
         }
+
+        private void UpdateJump()
+        {
+            if (mCurrentState == State.Alive)
+            {
+                if (up == true)
+                {
+                    Jump();
+                }
+            }
+        }
+
+
+        private void Jump()
+        {
+            if (mCurrentState != State.Dead && falling == false)
+            {
+                //mCurrentState = State.Jumping;
+                //mStartingPosition = Position;
+                mDirection.Y = MOVE_UP;
+                mSpeed.Y = JUMPFORCE;
+                mSpeed.X *= 4;
+                onfloor = false;
+            }
+        }
+
 
 
         public override void Draw(SpriteBatch theSpriteBatch)
