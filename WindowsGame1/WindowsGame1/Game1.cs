@@ -532,7 +532,7 @@ namespace CGProj
             }
             else if (gamestate == GameStates.Menu)
             {
-                menu.DrawMenu(spriteBatch, 800, arial);
+                menu.DrawMenu(spriteBatch, graphics.GraphicsDevice.Viewport.Width, arial);
             }
             else { }
 
