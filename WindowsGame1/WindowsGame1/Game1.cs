@@ -22,9 +22,14 @@ namespace CGProj
         public enum GameStates
         {
             Menu,
+            CutScene,
             InGame,
             Building,
         }
+
+        Video video;
+        VideoPlayer player;
+        Texture2D videoTexture;
 
         Menu menu;
 
@@ -141,6 +146,11 @@ namespace CGProj
             mTerainManager.loadTerainContents(this.Content);
             mTerainManager.registerSprites(this.m_physicsEngine);
             // TODO: use this.Content to load your game content here
+
+            video = Content.Load<Video>("opening");
+            player = new VideoPlayer();
+
+
             arial = Content.Load<SpriteFont>("Arial");
             mNinjaSprite.LoadContent(this.Content);
 
@@ -220,8 +230,7 @@ namespace CGProj
                 {
                     if (menu.Iterator == 0)
                     {
-                        gamestate = GameStates.InGame;
-                        SetUpGame();
+                        gamestate = GameStates.CutScene;
                     }
                     else if (menu.Iterator == 1)
                     {
@@ -485,14 +494,13 @@ namespace CGProj
 
                 this.m_physicsEngine.notifyCollisions();
             }
+            else if (gamestate == GameStates.CutScene && player.State == MediaState.Stopped)
+            {
+                gamestate = GameStates.InGame;
+            }
             else { /*new game state additions here, pause, loading, whatever.*/ }
 
             base.Update(gameTime);
-        }
-
-        private void SetUpGame()
-        {
-            
         }
 
         /// <summary>
@@ -502,10 +510,6 @@ namespace CGProj
         protected override void Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-           
-
-            // TODO: Add your drawing code here
 
             spriteBatch.Begin();
 
@@ -534,7 +538,14 @@ namespace CGProj
             {
                 menu.DrawMenu(spriteBatch, graphics.GraphicsDevice.Viewport.Width, arial);
             }
-            else { }
+            else if (gamestate == GameStates.CutScene)
+            {
+                if (player.State != MediaState.Stopped)
+                    videoTexture = player.GetTexture();
+                Rectangle screen = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+                spriteBatch.Draw(videoTexture, screen, Color.White);
+            }
+            else {}
 
             spriteBatch.End();
 
